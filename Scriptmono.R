@@ -265,10 +265,12 @@ plot(aggSerieWeekMonth, type='l', col='red',
 aggSerieWeekMonthMedian <- aggregate(base$desvio_de_expectativa, 
                                      by = base[c("Semana_mes")], FUN = median)
 library(scales)
+label_number(acuracy = 0.01)
 plot(aggSerieWeekMonthMedian, type='l', col='red', 
      main = 'Mediana do desvio da expectativa por semana do mês',
      xlab = 'Semana do mês', 
-     ylab = 'Desvio de expectativa (em pontos percentuais)', las=1)
+     ylab = 'Desvio de expectativa (em pontos percentuais)', las=1, 
+     label_number(acuracy = 0.01))
 cycle(Serie)
 #Next Steps:
 #1. Entender como calcular as ratios na p. 23 do livro usando os resultados de
