@@ -269,8 +269,7 @@ label_number(acuracy = 0.01)
 plot(aggSerieWeekMonthMedian, type='l', col='red', 
      main = 'Mediana do desvio da expectativa por semana do mês',
      xlab = 'Semana do mês', 
-     ylab = 'Desvio de expectativa (em pontos percentuais)', las=1, 
-     label_number(acuracy = 0.01))
+     ylab = 'Desvio de expectativa (em pontos percentuais)', las=1)
 cycle(Serie)
 #Next Steps:
 #1. Entender como calcular as ratios na p. 23 do livro usando os resultados de
