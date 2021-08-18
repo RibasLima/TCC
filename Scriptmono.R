@@ -199,13 +199,13 @@ aggSerie <- aggregate(x = base$desvio_de_expectativa, by = base[c("Ano")],
 plot(aggSerie, col='blue', main = 'Média do desvio da expectativa por ano', 
      xlab = 'Ano', ylab = 'Desvio de expectativa (em pontos percentuais)', 
      type='l')
-cycle("aggSerie", 0)
+cycle(Serie, 0)
+boxplot(Serie ~ cycle(Serie))
 aggSerieMonth <- aggregate(x = base$desvio_de_expectativa, by = base[c("Mes")],
                            FUN = mean)
 plot(aggSerieMonth, type='l', col='green', 
      main = 'Média do desvio da expectativa por mês', xlab = 'Mês', 
      ylab = 'Desvio de expectativa (em pontos percentuais)')
-cycle("aggSerieMonth", 0)
 aggSerieMedian <- aggregate(x = base$desvio_de_expectativa, by = base[c("Ano")],
                             FUN = median)
 plot(aggSerieMedian, col='blue', 
