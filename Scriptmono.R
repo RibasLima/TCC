@@ -199,8 +199,6 @@ aggSerie <- aggregate(x = base$desvio_de_expectativa, by = base[c("Ano")],
 plot(aggSerie, col='blue', main = 'Média do desvio da expectativa por ano', 
      xlab = 'Ano', ylab = 'Desvio de expectativa (em pontos percentuais)', 
      type='l')
-cycle(Serie, 0)
-boxplot(Serie ~ cycle(Serie))
 aggSerieMonth <- aggregate(x = base$desvio_de_expectativa, by = base[c("Mes")],
                            FUN = mean)
 plot(aggSerieMonth, type='l', col='green', 
@@ -270,7 +268,64 @@ plot(aggSerieWeekMonthMedian, type='l', col='red',
      main = 'Mediana do desvio da expectativa por semana do mês',
      xlab = 'Semana do mês', 
      ylab = 'Desvio de expectativa (em pontos percentuais)', las=1)
-cycle(Serie)
-#Next Steps:
-#1. Entender como calcular as ratios na p. 23 do livro usando os resultados de
-#aggSerieMonth
+
+#Cálculo de ratios, como na p. 23 do livro introductory time series analysis
+#with R. O objetivo com o cálculo dessas taxas é entender a diferença de
+#determinados períodos em relação ao resto, para identificar sazonalidades ou
+#quebras de tendência (caso dos presidentes dos bancos centrais)
+
+#Prestep: fazer o aggregate das médias anuais
+layout(1:3)
+plot (Serie, col='red', main = 'Desvio de expectativa - semanal e ponderada', 
+      xlab = 'Período', ylab = 'Desvio de expectativa (em pontos percentuais)', 
+      type='l')
+plot(aggSerieMedian, col='blue', 
+     main = 'Mediana do desvio da expectativa por ano', xlab = 'Ano', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)', type='l')
+plot(aggSerie, col='green', main = 'Média do desvio da expectativa por ano', 
+     xlab = 'Ano', ylab = 'Desvio de expectativa (em pontos percentuais)', 
+     type='l')
+
+plot (Serie, col='red', main = 'Desvio de expectativa - semanal e ponderada', 
+      xlab = 'Período', ylab = 'Desvio de expectativa (em pontos percentuais)', 
+      type='l')
+plot(aggSerieMonth, type='l', col='blue', 
+     main = 'Média do desvio da expectativa por mês', xlab = 'Mês', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)')
+plot(aggSerieMonthMedian, type='l', col='green', 
+     main = 'Mediana do desvio da expectativa por mês', xlab = 'Mês', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)')
+
+plot (Serie, col='red', main = 'Desvio de expectativa - semanal e ponderada', 
+      xlab = 'Período', ylab = 'Desvio de expectativa (em pontos percentuais)', 
+      type='l')
+plot(aggSerieMonthYear, type='l', col='blue', 
+     main = 'Média do desvio da expectativa por período', xlab = 'Período', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)')
+plot(aggSerieMonthYearMedian, type='l', col='green', 
+     main = 'Mediana do desvio da expectativa por período', xlab = 'Período', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)')
+
+plot (Serie, col='red', main = 'Desvio de expectativa - semanal e ponderada', 
+      xlab = 'Período', ylab = 'Desvio de expectativa (em pontos percentuais)', 
+      type='l')
+plot(aggSeriePresident, type='l', col='red', 
+     main = 'Média do desvio da expectativa por presidente do banco central', 
+     xlab = 'Presidente do Banco Central', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)')
+plot(aggSeriePresidentMedian, type='l', col='red', 
+     main = 'Mediana do desvio da expectativa por presidente do banco central', 
+     xlab = 'Presidente do Banco Central', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)')
+
+plot (Serie, col='red', main = 'Desvio de expectativa - semanal e ponderada', 
+      xlab = 'Período', ylab = 'Desvio de expectativa (em pontos percentuais)', 
+      type='l')
+plot(aggSerieEvent, type='l', col='red', 
+     main = 'Média do desvio da expectativa por evento do COPOM',
+     xlab = '', ylab = 'Desvio de expectativa (em pontos percentuais)', las=0)
+plot(aggSerieEventMedian, type='l', col='red', 
+     main = 'Mediana do desvio da expectativa por evento do COPOM',
+     xlab = '', ylab = 'Desvio de expectativa (em pontos percentuais)', las=3)
+
+#1. Caso das taxas para presidentes dos bancos centrais.
