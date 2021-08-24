@@ -4,9 +4,13 @@ Repositório específico para o meu tcc
 # To do
 
 Verificar inputs da pesquisa Focus (quinta ou sexta) – o input é na sexta. https://www.bcb.gov.br/publicacoes/focus
+
 Verificar M+0 ou M+1
+
 Construir série de erro semanal junto com o professor
+
 Série de eventos semanais
+
 Mediana acumulada prox 12 meses 
 
 Enviar Minha mono atualmente
