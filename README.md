@@ -33,4 +33,20 @@ Observações sobre ciclos e sazonalidade: gráficos triplos de comparação.
 Comparação mensal: aqui, com a escala mais clara, podemos ver que não há sazonalidade ou, se há, ela é irrelevante, corroborando o que foi visto no gráfico de decomposição.
 Comparação anual: nenhuma sazonalidade identificada. Entretanto, como funciona como uma suavização da curva, podemos ver o quanto o componente mais forte da curva é a tendência.
 Comparação mensal e anual: mesmas conclusões da anual, curva menos suavizada e com maior presença do erro.
-Comparação de presidentes: 
+Comparação de presidentes: Analisar tendência. Houve mudança? Aparentemente, sim, uma vez que no Meirelles cai, no Tombini sobe e no Goldfajn cai novamente. Entender o que houve nos idos de 2004 e 2005… por que sobe?
+
+Ratios: conforme p. 9 do Copertwait & Metcalfe.
+Eventos:
+Sem acontecimentos: 0.9260047
+Semana antes do COPOM: 1.058989
+Semana da reunião do COPOM: 1.038477
+Semana da ata: 1.01364
+Semana pós anúncio da ata: 1.049312
+Nenhuma variação acima de 8%. Alguma movimentação a mais em semanas com eventos do copom, especialmente antes do copom e depois da ata, mas nada demais.
+
+Presidentes:
+Meirelles: 0.492374
+Tombini: 2.266493
+Golfajn: -0.07238074
+Grandes variações. Podemos ver que as percepções do mercado variaram muito conforme o presidente do BC.
+Próximos passos: fazer ratios individuais para cada presidente, comparando as médias dos eventos com as médias dos presidentes.
