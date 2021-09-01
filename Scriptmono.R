@@ -328,4 +328,83 @@ plot(aggSerieEventMedian, type='l', col='red',
      main = 'Mediana do desvio da expectativa por evento do COPOM',
      xlab = '', ylab = 'Desvio de expectativa (em pontos percentuais)', las=3)
 
+#Montando as ratios para fazer análises
 #1. Caso das taxas para presidentes dos bancos centrais.
+#2. Caso das taxas para eventos do copom
+
+Sem.acontecimentos <- filter(.data = base, Tipo_periodo == "Sem acontecimentos",
+                             .preserve = TRUE)
+View(Sem.acontecimentos)
+Serie.sem.acontecimentos <- ts(Sem.acontecimentos$desvio_de_expectativa, 
+                               start = c(2003,1))
+summary(Serie.sem.acontecimentos)
+class(Serie.sem.acontecimentos)
+Sem.acontecimentos.ratio <- mean(Serie.sem.acontecimentos)/mean(Serie)
+Sem.acontecimentos.ratio
+
+Antes.COPOM <- filter(.data = base, Tipo_periodo == "Semana antes do copom",
+                             .preserve = TRUE)
+View(Antes.COPOM)
+Serie.antes.COPOM <- ts(Antes.COPOM$desvio_de_expectativa, start = c(2003,1))
+summary(Serie.antes.COPOM)
+class(Serie.antes.COPOM)
+Antes.COPOM.ratio <- mean(Serie.antes.COPOM)/mean(Serie)
+Antes.COPOM.ratio
+
+Semana.COPOM <- filter(.data = base, 
+                       Tipo_periodo == "Semana da Reunião do COPOM",
+                       .preserve = TRUE)
+View(Semana.COPOM)
+Serie.semana.COPOM <- ts(Semana.COPOM$desvio_de_expectativa, start = c(2003,1))
+summary(Serie.semana.COPOM)
+class(Serie.semana.COPOM)
+Semana.COPOM.ratio <- mean(Serie.semana.COPOM)/mean(Serie)
+Semana.COPOM.ratio
+
+Semana.ata <- filter(.data = base, Tipo_periodo == "Semana da Ata", 
+                     .preserve = TRUE)
+View(Semana.ata)
+Serie.semana.ata <- ts(Semana.ata$desvio_de_expectativa, start = c(2003,1))
+summary(Serie.semana.ata)
+class(Serie.semana.ata)
+Semana.ata.ratio <- mean(Serie.semana.ata)/mean(Serie)
+Semana.ata.ratio
+
+Depois.ata <- filter(.data = base, Tipo_periodo == "Semana pós anúncio da Ata", 
+                     .preserve = TRUE)
+View(Depois.ata)
+Serie.depois.ata <- ts(Depois.ata$desvio_de_expectativa, start = c(2003,1))
+summary(Serie.depois.ata)
+class(Serie.depois.ata)
+Depois.ata.ratio <- mean(Serie.depois.ata)/mean(Serie)
+Depois.ata.ratio
+
+Henrique.Meirelles <- filter(.data = base, BCPresidente == "Henrique Meirelles", 
+                     .preserve = TRUE)
+View(Henrique.Meirelles)
+Serie.Henrique.Meirelles <- ts(Henrique.Meirelles$desvio_de_expectativa, 
+                               start = c(2003,1))
+summary(Serie.Henrique.Meirelles)
+class(Serie.Henrique.Meirelles)
+Henrique.Meirelles.ratio <- mean(Serie.Henrique.Meirelles)/mean(Serie)
+Henrique.Meirelles.ratio
+
+Alexandre.Tombini <- filter(.data = base, BCPresidente == "Alexandre Tombini", 
+                             .preserve = TRUE)
+View(Alexandre.Tombini)
+Serie.Alexandre.Tombini <- ts(Alexandre.Tombini$desvio_de_expectativa,
+                              start = c(2003,1))
+summary(Serie.Alexandre.Tombini)
+class(Serie.Alexandre.Tombini)
+Alexandre.Tombini.ratio <- mean(Serie.Alexandre.Tombini)/mean(Serie)
+Alexandre.Tombini.ratio
+
+Ilan.Goldfajn <- filter(.data = base, BCPresidente == "Ilan Goldfajn", 
+                            .preserve = TRUE)
+View(Ilan.Goldfajn)
+Serie.Ilan.Goldfajn <- ts(Ilan.Goldfajn$desvio_de_expectativa, 
+                          start = c(2003,1))
+summary(Serie.Ilan.Goldfajn)
+class(Serie.Ilan.Goldfajn)
+Ilan.Goldfajn.ratio <- mean(Serie.Ilan.Goldfajn)/mean(Serie)
+Ilan.Goldfajn.ratio
