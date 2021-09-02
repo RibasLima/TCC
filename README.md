@@ -1,16 +1,7 @@
-# TCC
-Repositório específico para o meu tcc
-
-# To do
-
 Verificar inputs da pesquisa Focus (quinta ou sexta) – o input é na sexta. https://www.bcb.gov.br/publicacoes/focus
-
 Verificar M+0 ou M+1
-
 Construir série de erro semanal junto com o professor
-
 Série de eventos semanais
-
 Mediana acumulada prox 12 meses 
 
 Enviar Minha mono atualmente
@@ -33,9 +24,10 @@ Observações sobre ciclos e sazonalidade: gráficos triplos de comparação.
 Comparação mensal: aqui, com a escala mais clara, podemos ver que não há sazonalidade ou, se há, ela é irrelevante, corroborando o que foi visto no gráfico de decomposição.
 Comparação anual: nenhuma sazonalidade identificada. Entretanto, como funciona como uma suavização da curva, podemos ver o quanto o componente mais forte da curva é a tendência.
 Comparação mensal e anual: mesmas conclusões da anual, curva menos suavizada e com maior presença do erro.
+Caso dos eventos: nenhuma particularidade identificada. Analisar impacto na tese.
 Comparação de presidentes: Analisar tendência. Houve mudança? Aparentemente, sim, uma vez que no Meirelles cai, no Tombini sobe e no Goldfajn cai novamente. Entender o que houve nos idos de 2004 e 2005… por que sobe?
 
-Ratios: conforme p. 9 do Copertwait & Metcalfe.
+Ratios: conforme p. 9 do Copertwait & Metcalfe. Considerando médias em módulo, uma vez que o objetivo é obter o desvio médio de expectativa, e que 0 = desvio inexistente.
 Eventos:
 Sem acontecimentos: 0.9260047
 Semana antes do COPOM: 1.058989
@@ -45,8 +37,28 @@ Semana pós anúncio da ata: 1.049312
 Nenhuma variação acima de 8%. Alguma movimentação a mais em semanas com eventos do copom, especialmente antes do copom e depois da ata, mas nada demais.
 
 Presidentes:
-Meirelles: 0.492374
-Tombini: 2.266493
-Golfajn: -0.07238074
+Meirelles: 0.492374 (menor do que a média)
+Tombini: 2.266493 (puxa a média pra cima)
+Goldfajn: 0.07238074 (mesmo desconsiderando o fato de que o desvio de expectativa na era Goldfajn é negativo, ele ainda apresenta média menor que a do histórico completo de 2003-2018, ainda que superior à média do período Meirelles) 
 Grandes variações. Podemos ver que as percepções do mercado variaram muito conforme o presidente do BC.
-Próximos passos: fazer ratios individuais para cada presidente, comparando as médias dos eventos com as médias dos presidentes.
+Henrique Meirelles (média do evento apenas no presidente em relação à média do presidente):
+Sem acontecimentos: 0.3167281 (a média do desvio de expectativa é muito menor em relação à média total do Meirelles)
+Semana antes do COPOM:  1.2813 (desvio razoável, mercado se movimentando mais?)
+Semana da reunião do COPOM: 1.206975 (desvio razoável, mercado ainda se movimentando, porém menos que nas semanas anteriores)
+Semana da ata: 1.195411 (continua diminuindo)
+Semana pós anúncio da ata: 1.366423 (ué, o mais alto de todos?)
+Alexandre Tombini (média do evento apenas no presidente em relação à média do presidente):
+Sem acontecimentos: 0.9978639 (estável)
+Semana antes do COPOM:  0.9996006 (estável)
+Semana da reunião do COPOM:  1.00888 (estável)
+Semana da ata: 1.003622 (estável)
+Semana pós anúncio da ata: 0.9932708 (estável, novamente)
+Ilan Goldfajn (média do evento apenas no presidente em relação à média do presidente):
+Sem acontecimentos: 2.085187 (a média de Goldfajn era de -0.0452, enquanto que exclusivamente em semanas sem acontecimentos a sua média era de -0.09425 – ou seja, mais distante do 0, consideravelmente, indicando um mercado que acreditava ainda mais em quedas bruscas da inflação do que em dias normais de COPOM, ainda que levemente)
+Semana antes do COPOM:  0.1594799  (-0.007208 de média em semanas antes do copom, ou seja, mais próximo do 0, quase 0 de desvio de expectativa na verdade)
+Semana da reunião do COPOM: 0.9552114 (média de 0.04317, então na verdade a média na semana da reunião do COPOM é mais alta que no tempo completo, porém tem a mesma magnitude na direção oposta)
+Semana da ata: 0.6979715 (-0.03155 de média, portanto, mais próxima de 0 que a média total)
+Semana pós anúncio da ata: 1.422282 (-0.06429 de média, portanto mais distante de 0)
+Conclusão: a forma como o mercado reagia aos comunicados parece variar conforme o presidente do banco central. Análises mais profundas são requeridas, porém podemos notar que o mercado parece mais reativo às comunicações na era Meirelles e menos reativo às comunicações na era Tombini. Os dados da era Ilan apontam em maiores movimentações do mercado no período sem acontecimentos, ainda que o desvio de expectativa, mesmo neste momento, seja, em média, pequeno.
+Correlações:
+Expectativa x dólar: 0.200621
