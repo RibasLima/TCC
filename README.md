@@ -61,4 +61,4 @@ Semana da ata: 0.6979715 (-0.03155 de média, portanto, mais próxima de 0 que a
 Semana pós anúncio da ata: 1.422282 (-0.06429 de média, portanto mais distante de 0)
 Conclusão: a forma como o mercado reagia aos comunicados parece variar conforme o presidente do banco central. Análises mais profundas são requeridas, porém podemos notar que o mercado parece mais reativo às comunicações na era Meirelles e menos reativo às comunicações na era Tombini. Os dados da era Ilan apontam em maiores movimentações do mercado no período sem acontecimentos, ainda que o desvio de expectativa, mesmo neste momento, seja, em média, pequeno.
 Correlações:
-Expectativa x dólar: 0.200621
+Expectativa x dólar: 0.200621. Há uma leve correlação positiva entre o dólar e a expectativa de inflação – confesso que esperava uma correlação mais alta.
