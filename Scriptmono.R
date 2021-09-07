@@ -646,3 +646,19 @@ plot(as.vector(expec), as.vector(dolar),
      ylab = "Dólar - em reais")
 abline(reg = lm(dolar~expec))
 cor(expec, dolar)
+
+ipc.expec <- ts.intersect(Serie, SerieIPC)
+start(ipc.expec)
+end(ipc.expec)
+ipc.expec[1:3,]
+expec2 <- ipc.expec[,1]; ipcs <- ipc.expec[,2]
+plot(expec2, main = "", ylab = "desvio de expectativa - em pontos percentuais")
+plot(ipcs, main = "", ylab = "ipc-s - em percentual")
+plot(as.vector(expec2), as.vector(ipcs), 
+     xlab = "Desvio de expectativa - em pontos percentuais", 
+     ylab = "IPC-S - em percentual")
+abline(reg = lm(dolar~expec))
+#Entender por que o abline não está funcionando direito. Provavelmente, tem 
+#relação com o conjunto de parâmetros utilizados: reg, que indica regressão, e 
+#lm, que indica modelo linear. Analisar coisas para substituir lm - o modelo
+#pode ser não linear.
