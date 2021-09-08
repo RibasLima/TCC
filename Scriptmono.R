@@ -657,8 +657,24 @@ plot(ipcs, main = "", ylab = "ipc-s - em percentual")
 plot(as.vector(expec2), as.vector(ipcs), 
      xlab = "Desvio de expectativa - em pontos percentuais", 
      ylab = "IPC-S - em percentual")
-abline(reg = lm(dolar~expec))
-#Entender por que o abline não está funcionando direito. Provavelmente, tem 
-#relação com o conjunto de parâmetros utilizados: reg, que indica regressão, e 
-#lm, que indica modelo linear. Analisar coisas para substituir lm - o modelo
-#pode ser não linear.
+abline(reg = lm(ipcs~expec2))
+cor(expec2, ipcs)
+
+ibc.expec <- ts.intersect(Serie, SerieIBC)
+start(ibc.expec)
+end(ibc.expec)
+ibc.expec[1:3,]
+expec3 <- ibc.expec[,1]; ibcbr <- ibc.expec[,2]
+plot(expec3, main = "", ylab = "desvio de expectativa - em pontos percentuais")
+plot(ibcbr, main = "", ylab = "IBC-BR (pib 2002 = 100)")
+plot(SerieIBC)
+plot(as.vector(expec3), as.vector(ibcbr), 
+     xlab = "Desvio de expectativa - em pontos percentuais", 
+     ylab = "IBC-BR (2002 = 100)")
+abline(reg = lm(ibcbr~expec3))
+cor(expec3, ibcbr)
+
+#Decompondo a série para analisar
+decomposedSerie <- decompose(Serie, type = c("additive", "multiplicative"), 
+                             filter = NULL)
+plot(decomposedSerie)
