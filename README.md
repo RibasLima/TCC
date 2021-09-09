@@ -64,3 +64,23 @@ Correlações:
 Expectativa x dólar: 0.200621. Há uma leve correlação positiva entre o dólar e a expectativa de inflação – confesso que esperava uma correlação mais alta.
 Expectativa x inflação: 0.5206881. Há uma correlação mais intensa, o que faz sentido considerando a teoria econômica sobre como os agentes modelam suas expectativas de inflação.
 Expectativa x produto (IBC-BR): 0.2048647. Também mais leve do que imaginava.
+Mais análises da decomposição da série. Lembrando que estamos tratando-a como uma série aditiva, uma vez que o formato do gráfico, que não tem grandes explosões ou mudanças de nível, como séries de PIB por exemplo, aponta para uma série aditiva.
+Covariâncias:
+Expectativa x dólar: 0.1237232.
+Expectativa x inflação corrente: 0.1791453.
+Expectativa x produto: 2.609142. Distorcido por questão de dimensão de variáveis, uma vez que a covariância expressa corr*sd1*sd2, e, dado que a série do IBC-BR é base 100, o seu desvio padrão também fica mais alto, distorcendo a covariância.
+Autocorrelação:
+lag 1: 0.9713012
+lag 4: 0.9285735
+lag 5: 0.9103872
+lag 9: 0.8353702
+lag 19: 0.6788553
+lag 29: 0.5522301
+Ainda que a correlação vá diminuindo, ainda é bem mais alta que a que se vê no lag 1 do livro (0.47). Seria isso um objetivo à estacionariedade? Além disso, por que o R não vai além do lag 29? Isso aponta, para todos os efeitos, que existe uma correlação bastante elevada na série, possivelmente maior autocorrelação do que correlação com outras variáveis. Também não vemos correlação sazonal para as semanas. Não conseguimos analisar para ano por não termos lag acima de 29, a ver.
+Autocovariância:
+lag 1: 0.7996119
+lag 4: 0.7644368
+lag 5: 0.7494652
+lag 9: 0.6877083
+lag 19: 0.5588594
+lag 29: 0.4546167
