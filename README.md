@@ -84,3 +84,4 @@ lag 5: 0.7494652
 lag 9: 0.6877083
 lag 19: 0.5588594
 lag 29: 0.4546167
+Correlograma: como podemos ver, mesmo olhando para o correlograma no lag 833 (completo), mais de 5% da série fica fora do intervalo para ROk. Considerando que, para que uma série seja estacionária, é necessário que a média seja constante e que a correlação fique dentro de um mesmo intervalo, sendo que a correlação entre um ponto t1 e t2 não dependa de nada além da distância entre tais pontos, temos mais indícios de que a série não é estacionária. Vale lembrar que a série tem um componente de tendência muito mais forte do que o componente de sazonalidade, e que séries com tal característica, em geral, costumam apresentar correlograma que decai lentamente e quase linearmente.
