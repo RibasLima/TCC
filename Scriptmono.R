@@ -678,3 +678,41 @@ cor(expec3, ibcbr)
 decomposedSerie <- decompose(Serie, type = c("additive", "multiplicative"), 
                              filter = NULL)
 plot(decomposedSerie)
+TrendSerie <- decomposedSerie$trend
+SeasonalSerie <- decomposedSerie$seasonal
+LegendNames <- c(TrendSerie, SeasonalSerie)
+ts.plot(cbind(TrendSerie, TrendSerie*SeasonalSerie), lty = 1:2, 
+        ylab = "Desvio de expectativa - em pontos percentuais", 
+        col = c("red", "blue"))
+legend("bottomleft", c("Trend", "Seasonal"), col = c("red", "blue"), lty = 1:2)
+cov(expec, dolar)
+cov(expec2, ipcs)
+cov(expec3, ibcbr)
+acf(Serie)$acf[6]
+acf(Serie, lag.max = NULL)
+plot(Serie[1:832],Serie[2:833], xlab = "x_t", ylab = "x_t+1") 
+plot(Serie[1:823],Serie[11:833], xlab = "x_t", ylab = "x_t+1 - lag 10") 
+plot(Serie[1:783],Serie[51:833], xlab = "x_t", ylab = "x_t+1 - lag 50") 
+plot(Serie[1:733],Serie[101:833], xlab = "x_t", ylab = "x_t+1 - lag 100") 
+acf(Serie, type = c("covariance"))$acf[2]
+acf(Serie, type = c("covariance"))$acf[10]
+acf(Serie, type = c("covariance"))$acf[20]
+acf(Serie, type = c("covariance"))$acf[30]
+acf(Serie, type = c("covariance"))$acf[5]
+acf(Serie, type = c("covariance"))$acf[6]
+acf(Serie, lag.max = 833, demean = TRUE)
+ts.plot(Serie, SerieIPC, lty = c(1,3), 
+        ylab = "Linha contínua: desvio da expectativa de inflação 
+        Linha pontilhada: IPC-S (último mês)")
+ts.plot(Serie, SerieDolar, lty = c(1,3), 
+        ylab = "Linha contínua: desvio da expectativa de inflação 
+        Linha pontilhada: Dólar (PTAX fechamento dia)")
+ts.plot(Serie, SerieIBC, lty = c(1,3), 
+        ylab = "Linha contínua: desvio da expectativa de inflação 
+        Linha pontilhada: IBC-BR (mensal)")
+SerieIBCplotavel <- SerieIBC-100
+ts.plot(Serie, SerieIBCplotavel, lty = c(1,3), 
+        ylab = "Linha contínua: desvio da expectativa de inflação 
+        Linha pontilhada: IBC-BR (mensal - em diferença em relação à atividade 
+        em 2000)")
+SerieExponentialIBC <- log(SerieIBCplotavel)
