@@ -170,7 +170,7 @@ base2006 <- filter(base, base$Ano_categ %in% (c("2006", "2007", "2008", "2009",
 Serie2006<-ts(base2006$desvio_de_expectativa, freq=365.25/7, start=c(2003,1))
 lagSerieA7 <- stats::lag(Serie2006, -7)
 graphics::plot(lagSerieA7, col='blue', 
-               main = 'Desvio de expectativa - ciclo anterior (lag 7) - a partir 
+               main = 'Desvio de expectativa - ciclo anterior (lag 7) - a 'par'tir 
                de 2006, em pontos percentuais', xlab = 'Período', 
                ylab = 'Desvio de expectativa (52 semanas antes da data)', 
                type='l')
@@ -710,9 +710,44 @@ ts.plot(Serie, SerieDolar, lty = c(1,3),
 ts.plot(Serie, SerieIBC, lty = c(1,3), 
         ylab = "Linha contínua: desvio da expectativa de inflação 
         Linha pontilhada: IBC-BR (mensal)")
-SerieIBCplotavel <- SerieIBC-100
-ts.plot(Serie, SerieIBCplotavel, lty = c(1,3), 
-        ylab = "Linha contínua: desvio da expectativa de inflação 
-        Linha pontilhada: IBC-BR (mensal - em diferença em relação à atividade 
-        em 2000)")
+#Transformação da série do ibc-br para que seja considerada apenas a diferença 
+#do valor apurado em relação ao valor de referência, por isso subtraimos 100.
+#Para que a transformação em log seja possível, somamos 1 para que não haja
+#números negativos. Assim, chegamos à conclusão que precisamos subtrair 99,
+#sendo que a série resultante é log(xt+1), onde x é o IBC-BR naquele momento e t
+#se refere ao período de observação.
+SerieIBCplotavel <- SerieIBC-99
 SerieExponentialIBC <- log(SerieIBCplotavel)
+SerieIBCplotavel
+SerieExponentialIBC
+par(mar = c(5,7,5,1))
+ts.plot(Serie, SerieExponentialIBC, lty = c(1,3), 
+        ylab = "Linha contínua: desvio da expectativa de inflação 
+        Linha pontilhada: log(IBC-BR + 1) (mensal - em diferença em relação à 
+        atividade em 2000)")
+SerieExponentialIBCcomplete <- log(SerieIBC)
+ts.plot(Serie, SerieExponentialIBCcomplete, lty = c(1,3), 
+        ylab = "Linha contínua: desvio da expectativa de inflação 
+        Linha pontilhada: log(IBC-BR) (mensal - valores em 2000 = 100)")
+plot(SerieExponentialIBCcomplete)
+acf(ts.union(Serie, SerieDolar))
+acf(ts.union(Serie, SerieIPC))
+acf(ts.union(Serie, SerieExponentialIBCcomplete))
+randomSerie <- decompose(Serie)$random
+randomSerieDolar <- decompose(SerieDolar)$random
+acf (ts.union(randomSerie, randomSerieDolar), na.action = na.pass)
+randomSerieIPC <- decompose(SerieIPC)$random
+acf (ts.union(randomSerie, randomSerieIPC), na.action = na.pass)
+randomSerieIBCComplete <- decompose(SerieExponentialIBCcomplete)$random
+acf (ts.union(randomSerie, randomSerieIBCComplete), na.action = na.pass)
+
+#2. Analisar correlação entre as séries considerando apenas random
+cor(randomSerie, randomSerieDolar, use = "pairwise.complete.obs")
+cor(randomSerie, randomSerieIPC, use = "pairwise.complete.obs")
+cor(randomSerie, randomSerieIBCComplete, use = "pairwise.complete.obs")
+cor(Serie, SerieExponentialIBCcomplete)
+cov(Serie, SerieExponentialIBCcomplete)
+
+print(acf(ts.union(randomSerie, randomSerieDolar), na.action = na.pass))
+print(acf(ts.union(randomSerie, randomSerieIPC), na.action = na.pass))
+print(acf(ts.union(randomSerie, randomSerieIBCComplete), na.action = na.pass))
