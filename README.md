@@ -63,12 +63,12 @@ Conclusão: a forma como o mercado reagia aos comunicados parece variar conforme
 Correlações:
 Expectativa x dólar: 0.200621. Há uma leve correlação positiva entre o dólar e a expectativa de inflação – confesso que esperava uma correlação mais alta.
 Expectativa x inflação: 0.5206881. Há uma correlação mais intensa, o que faz sentido considerando a teoria econômica sobre como os agentes modelam suas expectativas de inflação.
-Expectativa x produto (IBC-BR): 0.2048647. Também mais leve do que imaginava.
+Expectativa x produto (IBC-BR): 0.176251. Também mais leve do que imaginava.
 Mais análises da decomposição da série. Lembrando que estamos tratando-a como uma série aditiva, uma vez que o formato do gráfico, que não tem grandes explosões ou mudanças de nível, como séries de PIB por exemplo, aponta para uma série aditiva.
 Covariâncias:
 Expectativa x dólar: 0.1237232.
 Expectativa x inflação corrente: 0.1791453.
-Expectativa x produto: 2.609142. Distorcido por questão de dimensão de variáveis, uma vez que a covariância expressa corr*sd1*sd2, e, dado que a série do IBC-BR é base 100, o seu desvio padrão também fica mais alto, distorcendo a covariância.
+Expectativa x produto: 0.01811741. 
 Autocorrelação:
 lag 1: 0.9713012
 lag 4: 0.9285735
@@ -85,3 +85,8 @@ lag 9: 0.6877083
 lag 19: 0.5588594
 lag 29: 0.4546167
 Correlograma: como podemos ver, mesmo olhando para o correlograma no lag 833 (completo), mais de 5% da série fica fora do intervalo para ROk. Considerando que, para que uma série seja estacionária, é necessário que a média seja constante e que a correlação fique dentro de um mesmo intervalo, sendo que a correlação entre um ponto t1 e t2 não dependa de nada além da distância entre tais pontos, temos mais indícios de que a série não é estacionária. Vale lembrar que a série tem um componente de tendência muito mais forte do que o componente de sazonalidade, e que séries com tal característica, em geral, costumam apresentar correlograma que decai lentamente e quase linearmente.
+Correlações - random:
+Expectativa x dólar: 0.2183151. A correlação aumenta quando tiramos impactos de tendência e sazonalidade, mas o aumento é muito pequeno.
+Expectativa x inflação: 0.4415533. A correlação diminui quando tiramos impacto de tendência e sazonalidade. Estranho, tentar entender porque.
+Expectativa x produto (IBC-BR): 0.3068323. Correlação aumenta consideravelmente quando desconsideramos a tendência e a sazonalidade. Entender porque.
+Ver: índice de correlação cruzada por lag. No fim do documento.
