@@ -339,8 +339,11 @@ Serie.sem.acontecimentos <- ts(Sem.acontecimentos$desvio_de_expectativa,
                                start = c(2003,1))
 summary(Serie.sem.acontecimentos)
 class(Serie.sem.acontecimentos)
-Sem.acontecimentos.ratio <- abs(mean(Serie.sem.acontecimentos))/abs(mean(Serie))
+Sem.acontecimentos.ratio <- 
+  abs(median(Serie.sem.acontecimentos))/abs(median(Serie))
 Sem.acontecimentos.ratio
+percentual.sem.acontecimentos <- (Sem.acontecimentos.ratio-1)*100
+percentual.sem.acontecimentos
 
 Antes.COPOM <- filter(.data = base, Tipo_periodo == "Semana antes do copom",
                              .preserve = TRUE)
@@ -348,8 +351,10 @@ View(Antes.COPOM)
 Serie.antes.COPOM <- ts(Antes.COPOM$desvio_de_expectativa, start = c(2003,1))
 summary(Serie.antes.COPOM)
 class(Serie.antes.COPOM)
-Antes.COPOM.ratio <- abs(mean(Serie.antes.COPOM))/abs(mean(Serie))
+Antes.COPOM.ratio <- abs(median(Serie.antes.COPOM))/abs(median(Serie))
 Antes.COPOM.ratio
+percentual.antes.COPOM <- (Antes.COPOM.ratio-1)*100
+percentual.antes.COPOM
 
 Semana.COPOM <- filter(.data = base, 
                        Tipo_periodo == "Semana da Reunião do COPOM",
@@ -358,8 +363,10 @@ View(Semana.COPOM)
 Serie.semana.COPOM <- ts(Semana.COPOM$desvio_de_expectativa, start = c(2003,1))
 summary(Serie.semana.COPOM)
 class(Serie.semana.COPOM)
-Semana.COPOM.ratio <- abs(mean(Serie.semana.COPOM))/abs(mean(Serie))
+Semana.COPOM.ratio <- abs(median(Serie.semana.COPOM))/abs(median(Serie))
 Semana.COPOM.ratio
+percentual.semana.COPOM <- (Semana.COPOM.ratio-1)*100
+percentual.semana.COPOM
 
 Semana.ata <- filter(.data = base, Tipo_periodo == "Semana da Ata", 
                      .preserve = TRUE)
@@ -367,8 +374,10 @@ View(Semana.ata)
 Serie.semana.ata <- ts(Semana.ata$desvio_de_expectativa, start = c(2003,1))
 summary(Serie.semana.ata)
 class(Serie.semana.ata)
-Semana.ata.ratio <- abs(mean(Serie.semana.ata))/abs(mean(Serie))
+Semana.ata.ratio <- abs(median(Serie.semana.ata))/abs(median(Serie))
 Semana.ata.ratio
+percentual.semana.ata <- (Semana.ata.ratio-1)*100
+percentual.semana.ata
 
 Depois.ata <- filter(.data = base, Tipo_periodo == "Semana pós anúncio da Ata", 
                      .preserve = TRUE)
@@ -376,8 +385,10 @@ View(Depois.ata)
 Serie.depois.ata <- ts(Depois.ata$desvio_de_expectativa, start = c(2003,1))
 summary(Serie.depois.ata)
 class(Serie.depois.ata)
-Depois.ata.ratio <- abs(mean(Serie.depois.ata))/abs(mean(Serie))
+Depois.ata.ratio <- abs(median(Serie.depois.ata))/abs(median(Serie))
 Depois.ata.ratio
+percentual.depois.ata <- (Depois.ata.ratio-1)*100
+percentual.depois.ata
 
 Henrique.Meirelles <- filter(.data = base, BCPresidente == "Henrique Meirelles", 
                      .preserve = TRUE)
@@ -386,8 +397,11 @@ Serie.Henrique.Meirelles <- ts(Henrique.Meirelles$desvio_de_expectativa,
                                start = c(2003,1))
 summary(Serie.Henrique.Meirelles)
 class(Serie.Henrique.Meirelles)
-Henrique.Meirelles.ratio <- abs(mean(Serie.Henrique.Meirelles))/abs(mean(Serie))
+Henrique.Meirelles.ratio <- 
+  abs(median(Serie.Henrique.Meirelles))/abs(median(Serie))
 Henrique.Meirelles.ratio
+percentual.Henrique.Meirelles <- (Henrique.Meirelles.ratio-1)*100
+percentual.Henrique.Meirelles
 
 Alexandre.Tombini <- filter(.data = base, BCPresidente == "Alexandre Tombini", 
                              .preserve = TRUE)
@@ -396,8 +410,11 @@ Serie.Alexandre.Tombini <- ts(Alexandre.Tombini$desvio_de_expectativa,
                               start = c(2003,1))
 summary(Serie.Alexandre.Tombini)
 class(Serie.Alexandre.Tombini)
-Alexandre.Tombini.ratio <- abs(mean(Serie.Alexandre.Tombini))/abs(mean(Serie))
+Alexandre.Tombini.ratio <- 
+  abs(median(Serie.Alexandre.Tombini))/abs(median(Serie))
 Alexandre.Tombini.ratio
+percentual.Alexandre.Tombini <- (Alexandre.Tombini.ratio-1)*100
+percentual.Alexandre.Tombini
 
 Ilan.Goldfajn <- filter(.data = base, BCPresidente == "Ilan Goldfajn", 
                             .preserve = TRUE)
@@ -406,8 +423,10 @@ Serie.Ilan.Goldfajn <- ts(Ilan.Goldfajn$desvio_de_expectativa,
                           start = c(2003,1))
 summary(Serie.Ilan.Goldfajn)
 class(Serie.Ilan.Goldfajn)
-Ilan.Goldfajn.ratio <- abs(mean(Serie.Ilan.Goldfajn))/abs(mean(Serie))
+Ilan.Goldfajn.ratio <- abs(median(Serie.Ilan.Goldfajn))/abs(median(Serie))
 Ilan.Goldfajn.ratio
+percentual.Ilan.Goldfajn <- (Ilan.Goldfajn.ratio-1)*100
+percentual.Ilan.Goldfajn
 
 Henrique.Meirelles.sem.acontecimentos <- filter(.data = base, 
                                                 BCPresidente == 
@@ -422,9 +441,12 @@ Serie.Henrique.Meirelles.sem.acontecimentos <-
 summary(Serie.Henrique.Meirelles.sem.acontecimentos)
 class(Serie.Henrique.Meirelles.sem.acontecimentos)
 Henrique.Meirelles.sem.acontecimentos.ratio <- 
-  abs(mean(Serie.Henrique.Meirelles.sem.acontecimentos))/
-  abs(mean(Serie.Henrique.Meirelles))
+  abs(median(Serie.Henrique.Meirelles.sem.acontecimentos))/
+  abs(median(Serie.Henrique.Meirelles))
 Henrique.Meirelles.sem.acontecimentos.ratio
+percentual.Henrique.Meirelles.sem.acontecimentos <- 
+  (Henrique.Meirelles.sem.acontecimentos.ratio-1)*100
+percentual.Henrique.Meirelles.sem.acontecimentos
 
 Henrique.Meirelles.antes.COPOM <- filter(.data = base, 
                                          BCPresidente == "Henrique Meirelles",
@@ -437,9 +459,12 @@ Serie.Henrique.Meirelles.antes.COPOM <-
 summary(Serie.Henrique.Meirelles.antes.COPOM)
 class(Serie.Henrique.Meirelles.antes.COPOM)
 Henrique.Meirelles.antes.COPOM.ratio <- 
-  abs(mean(Serie.Henrique.Meirelles.antes.COPOM))/
-  abs(mean(Serie.Henrique.Meirelles))
+  abs(median(Serie.Henrique.Meirelles.antes.COPOM))/
+  abs(median(Serie.Henrique.Meirelles))
 Henrique.Meirelles.antes.COPOM.ratio
+percentual.Henrique.Meirelles.antes.COPOM <- 
+  (Henrique.Meirelles.antes.COPOM.ratio-1)*100
+percentual.Henrique.Meirelles.antes.COPOM
 
 Henrique.Meirelles.semana.COPOM <- filter(.data = base, 
                                           BCPresidente == "Henrique Meirelles",
@@ -452,9 +477,12 @@ Serie.Henrique.Meirelles.semana.COPOM <-
 summary(Serie.Henrique.Meirelles.semana.COPOM)
 class(Serie.Henrique.Meirelles.semana.COPOM)
 Henrique.Meirelles.semana.COPOM.ratio <- 
-  abs(mean(Serie.Henrique.Meirelles.semana.COPOM))/
-  abs(mean(Serie.Henrique.Meirelles))
+  abs(median(Serie.Henrique.Meirelles.semana.COPOM))/
+  abs(median(Serie.Henrique.Meirelles))
 Henrique.Meirelles.semana.COPOM.ratio
+percentual.Henrique.Meirelles.semana.COPOM <- 
+  (Henrique.Meirelles.semana.COPOM.ratio-1)*100
+percentual.Henrique.Meirelles.semana.COPOM
 
 Henrique.Meirelles.semana.ata <- filter(.data = base, 
                                         BCPresidente == "Henrique Meirelles",
@@ -466,9 +494,12 @@ Serie.Henrique.Meirelles.semana.ata <-
 summary(Serie.Henrique.Meirelles.semana.ata)
 class(Serie.Henrique.Meirelles.semana.ata)
 Henrique.Meirelles.semana.ata.ratio <- 
-  abs(mean(Serie.Henrique.Meirelles.semana.ata))/
-  abs(mean(Serie.Henrique.Meirelles))
+  abs(median(Serie.Henrique.Meirelles.semana.ata))/
+  abs(median(Serie.Henrique.Meirelles))
 Henrique.Meirelles.semana.ata.ratio
+percentual.Henrique.Meirelles.semana.ata <- 
+  (Henrique.Meirelles.semana.ata.ratio-1)*100
+percentual.Henrique.Meirelles.semana.ata
 
 Henrique.Meirelles.depois.ata <- filter(.data = base, 
                                         BCPresidente == "Henrique Meirelles",
@@ -481,9 +512,12 @@ Serie.Henrique.Meirelles.depois.ata <-
 summary(Serie.Henrique.Meirelles.depois.ata)
 class(Serie.Henrique.Meirelles.depois.ata)
 Henrique.Meirelles.depois.ata.ratio <- 
-  abs(mean(Serie.Henrique.Meirelles.depois.ata))/
-  abs(mean(Serie.Henrique.Meirelles))
+  abs(median(Serie.Henrique.Meirelles.depois.ata))/
+  abs(median(Serie.Henrique.Meirelles))
 Henrique.Meirelles.depois.ata.ratio
+percentual.Henrique.Meirelles.depois.ata <- 
+  (Henrique.Meirelles.depois.ata.ratio-1)*100
+percentual.Henrique.Meirelles.depois.ata
 
 Alexandre.Tombini.sem.acontecimentos <- filter(.data = base, 
                                               BCPresidente == 
@@ -498,9 +532,12 @@ Serie.Alexandre.Tombini.sem.acontecimentos <-
 summary(Serie.Alexandre.Tombini.sem.acontecimentos)
 class(Serie.Alexandre.Tombini.sem.acontecimentos)
 Alexandre.Tombini.sem.acontecimentos.ratio <- 
-  abs(mean(Serie.Alexandre.Tombini.sem.acontecimentos))/
-  abs(mean(Serie.Alexandre.Tombini))
+  abs(median(Serie.Alexandre.Tombini.sem.acontecimentos))/
+  abs(median(Serie.Alexandre.Tombini))
 Alexandre.Tombini.sem.acontecimentos.ratio
+percentual.Alexandre.Tombini.sem.acontecimentos <- 
+  (Alexandre.Tombini.sem.acontecimentos.ratio-1)*100
+percentual.Alexandre.Tombini.sem.acontecimentos
 
 Alexandre.Tombini.antes.COPOM <- filter(.data = base, 
                                         BCPresidente == "Alexandre Tombini", 
@@ -512,9 +549,10 @@ Serie.Alexandre.Tombini.antes.COPOM <-
 summary(Serie.Alexandre.Tombini.antes.COPOM)
 class(Serie.Alexandre.Tombini.antes.COPOM)
 Alexandre.Tombini.antes.COPOM.ratio <- 
-  abs(mean(Serie.Alexandre.Tombini.antes.COPOM))/
-  abs(mean(Serie.Alexandre.Tombini))
+  abs(median(Serie.Alexandre.Tombini.antes.COPOM))/
+  abs(median(Serie.Alexandre.Tombini))
 Alexandre.Tombini.antes.COPOM.ratio
+
 
 Alexandre.Tombini.semana.COPOM <- filter(.data = base, 
                                          BCPresidente == "Alexandre Tombini", 
@@ -751,3 +789,9 @@ cov(Serie, SerieExponentialIBCcomplete)
 print(acf(ts.union(randomSerie, randomSerieDolar), na.action = na.pass))
 print(acf(ts.union(randomSerie, randomSerieIPC), na.action = na.pass))
 print(acf(ts.union(randomSerie, randomSerieIBCComplete), na.action = na.pass))
+
+#HoltWinters - suavização exponencial faz sentido porque a série, num primeiro 
+#momento, parece ter tendência e sazonalidade indefinidos
+Serie.hw1 <- HoltWinters(Serie, beta = 0, gamma = 0)
+summary(Serie)
+frequency(Serie)
