@@ -74,6 +74,7 @@ base <- read_delim("~/Monografia/Base/Base_completa_ingles.csv", "\t",
 #Readr
 
 Serie<-ts(base$desvio_de_expectativa, freq=365.25/7, start=c(2003,1))
+Seriecoefvar <- ts(base$Coef._Var., freq=365.25/7, start=c(2003,1))
 #Seta como uma série de tempo, cuja variável Y é desvio de expectativa.
 
 summary(Serie)
@@ -88,6 +89,7 @@ plot(base$Data, base$desvio_de_expectativa,
 boxplot(base$desvio_de_expectativa)
 #Cria uma boxplot do desvio de expectativa
 
+par(mar = c(5, 5, 3, 3))
 boxplot(base$desvio_de_expectativa ~ base$BCPresidente, 
         main = "Desvio de expectativa por presidente do Banco Central - em 
         boxplot", ylab = "Desvio de expectativa (em pontos percentuais)", 
@@ -98,21 +100,41 @@ boxplot(base$desvio_de_expectativa ~ base$BCPresidente,
         main = "Desvio de expectativa por presidente do Banco Central - em 
         boxplot", ylab = "Desvio de expectativa (em pontos percentuais)", 
         xlab = "Presidente do Banco Central", col='red')
+
 boxplot(base$desvio_de_expectativa ~ base$Ano_categ, 
-        main = "Desvio de expectativa por ano - em boxplot", 
-        ylab = "Desvio de expectativa (em pontos percentuais)", 
+        main = "Gráfico 3 - Desvio de Expectativa por Ano (em boxplot)", 
+        ylab = "Desvio de Expectativa (em pontos percentuais)", 
         xlab = "Ano", col='blue')
+boxplot(base$Coef._Var. ~ base$Ano_categ, 
+        main = "Gráfico 4 - Coeficiente de Variação por Ano (em boxplot)", 
+        ylab = "Coeficiente de Variação", xlab = "Ano", col='red')
+
 boxplot(base$desvio_de_expectativa ~ base$Mes_categ, 
-        main = "Desvio de expectativa por mês - em boxplot", 
-        ylab = "", xlab = "Mês", col='green')
+        main = "Gráfico 5 - Desvio de Expectativa por Mês (em boxplot)", 
+        ylab = "Desvio de Expectativa (em pontos percentuais)", xlab = "Mês", 
+        col='green')
+boxplot(base$Coef._Var. ~ base$Mes_categ, 
+        main = "Gráfico 6 - Coeficiente de Variação por Mês (em boxplot)", 
+        ylab = "Coeficiente de Variação", xlab = "Mês", col='orange')
+
 boxplot(base$desvio_de_expectativa ~ base$Semana_mes, 
-        main = "Desvio de expectativa por semana do mês - em boxplot", 
-        ylab = "Desvio de expectativa (em pontos percentuais)", 
-        xlab = "Semana do mês", col='red')
+        main = "Gráfico 7 - Desvio de Expectativa por Semana do Mês (em 
+        boxplot)", ylab = "Desvio de Expectativa (em pontos percentuais)", 
+        xlab = "Semana do Mês", col='red')
+boxplot(base$Coef._Var. ~ base$Semana_mes, 
+        main = "Gráfico 8 - Coeficiente de Variação por Semana do Mês (em 
+        boxplot)", ylab = "Coeficiente de Variação", xlab = "Semana do Mês", 
+        col='blue')
+
+par(mar = c(14, 5, 3, 3))
+filter(.data = base, base$Tipo_periodo!="Hiato", .preserve = TRUE)
 boxplot(base$desvio_de_expectativa ~ base$Tipo_periodo, 
+        subset = (base$Tipo_periodo != (c("Hiato", "Semana Mista", 
+                                         "Antes e pós"))),
         main = "Desvio por evento do COPOM em pontos percentuais", 
         ylab = "Desvio de expectativa (em pontos percentuais)", 
-        xlab = "", col='blue')
+        xlab = "", col='blue', las = 2)
+
 boxplot(base$'IPC-S' ~ base$BCPresidente, 
         main = "Inflação semanal (IPC-S) por presidente do Banco Central - em 
         boxplot", ylab = "IPC-S (percentual)", 
@@ -552,7 +574,9 @@ Alexandre.Tombini.antes.COPOM.ratio <-
   abs(median(Serie.Alexandre.Tombini.antes.COPOM))/
   abs(median(Serie.Alexandre.Tombini))
 Alexandre.Tombini.antes.COPOM.ratio
-
+percentual.Alexandre.Tombini.antes.COPOM <- 
+  (Alexandre.Tombini.antes.COPOM.ratio-1)*100
+percentual.Alexandre.Tombini.antes.COPOM
 
 Alexandre.Tombini.semana.COPOM <- filter(.data = base, 
                                          BCPresidente == "Alexandre Tombini", 
@@ -565,9 +589,12 @@ Serie.Alexandre.Tombini.semana.COPOM <-
 summary(Serie.Alexandre.Tombini.semana.COPOM)
 class(Serie.Alexandre.Tombini.semana.COPOM)
 Alexandre.Tombini.semana.COPOM.ratio <- 
-  abs(mean(Serie.Alexandre.Tombini.semana.COPOM))/
-  abs(mean(Serie.Alexandre.Tombini))
+  abs(median(Serie.Alexandre.Tombini.semana.COPOM))/
+  abs(median(Serie.Alexandre.Tombini))
 Alexandre.Tombini.semana.COPOM.ratio
+percentual.Alexandre.Tombini.semana.COPOM <- 
+  (Alexandre.Tombini.semana.COPOM.ratio-1)*100
+percentual.Alexandre.Tombini.semana.COPOM
 
 Alexandre.Tombini.semana.ata <- filter(.data = base, 
                                        BCPresidente == "Alexandre Tombini", 
@@ -579,9 +606,12 @@ Serie.Alexandre.Tombini.semana.ata <-
 summary(Serie.Alexandre.Tombini.semana.ata)
 class(Serie.Alexandre.Tombini.semana.ata)
 Alexandre.Tombini.semana.ata.ratio <- 
-  abs(mean(Serie.Alexandre.Tombini.semana.ata))/
-  abs(mean(Serie.Alexandre.Tombini))
+  abs(median(Serie.Alexandre.Tombini.semana.ata))/
+  abs(median(Serie.Alexandre.Tombini))
 Alexandre.Tombini.semana.ata.ratio
+percentual.Alexandre.Tombini.semana.ata <- 
+  (Alexandre.Tombini.semana.ata.ratio-1)*100
+percentual.Alexandre.Tombini.semana.ata
 
 Alexandre.Tombini.depois.ata <- filter(.data = base, 
                                        BCPresidente == "Alexandre Tombini", 
@@ -594,9 +624,12 @@ Serie.Alexandre.Tombini.depois.ata <-
 summary(Serie.Alexandre.Tombini.depois.ata)
 class(Serie.Alexandre.Tombini.depois.ata)
 Alexandre.Tombini.depois.ata.ratio <- 
-  abs(mean(Serie.Alexandre.Tombini.depois.ata))/
-  abs(mean(Serie.Alexandre.Tombini))
+  abs(median(Serie.Alexandre.Tombini.depois.ata))/
+  abs(median(Serie.Alexandre.Tombini))
 Alexandre.Tombini.depois.ata.ratio
+percentual.Alexandre.Tombini.depois.ata <- 
+  (Alexandre.Tombini.depois.ata.ratio-1)*100
+percentual.Alexandre.Tombini.depois.ata
 
 Ilan.Goldfajn.sem.acontecimentos <- filter(.data = base, 
                                            BCPresidente == "Ilan Goldfajn", 
@@ -608,9 +641,12 @@ Serie.Ilan.Goldfajn.sem.acontecimentos <-
 summary(Serie.Ilan.Goldfajn.sem.acontecimentos)
 class(Serie.Ilan.Goldfajn.sem.acontecimentos)
 Ilan.Goldfajn.sem.acontecimentos.ratio <- 
-  abs(mean(Serie.Ilan.Goldfajn.sem.acontecimentos))/
-  abs(mean(Serie.Ilan.Goldfajn))
+  abs(median(Serie.Ilan.Goldfajn.sem.acontecimentos))/
+  abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.sem.acontecimentos.ratio
+percentual.Ilan.Goldfajn.sem.acontecimentos <- 
+  (Ilan.Goldfajn.sem.acontecimentos.ratio-1)*100
+percentual.Ilan.Goldfajn.sem.acontecimentos
 
 Ilan.Goldfajn.antes.COPOM <- filter(.data = base, 
                                     BCPresidente == "Ilan Goldfajn", 
@@ -622,8 +658,11 @@ Serie.Ilan.Goldfajn.antes.COPOM <-
 summary(Serie.Ilan.Goldfajn.antes.COPOM)
 class(Serie.Ilan.Goldfajn.antes.COPOM)
 Ilan.Goldfajn.antes.COPOM.ratio <- 
-  abs(mean(Serie.Ilan.Goldfajn.antes.COPOM))/abs(mean(Serie.Ilan.Goldfajn))
+  abs(median(Serie.Ilan.Goldfajn.antes.COPOM))/abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.antes.COPOM.ratio
+percentual.Ilan.Goldfajn.antes.COPOM <- 
+  (Ilan.Goldfajn.antes.COPOM.ratio-1)*100
+percentual.Ilan.Goldfajn.antes.COPOM
 
 Ilan.Goldfajn.semana.COPOM <- filter(.data = base, 
                                      BCPresidente == "Ilan Goldfajn", 
@@ -636,8 +675,11 @@ Serie.Ilan.Goldfajn.semana.COPOM <-
 summary(Serie.Ilan.Goldfajn.semana.COPOM)
 class(Serie.Ilan.Goldfajn.semana.COPOM)
 Ilan.Goldfajn.semana.COPOM.ratio <- 
-  abs(mean(Serie.Ilan.Goldfajn.semana.COPOM))/abs(mean(Serie.Ilan.Goldfajn))
+  abs(median(Serie.Ilan.Goldfajn.semana.COPOM))/abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.semana.COPOM.ratio
+percentual.Ilan.Goldfajn.semana.COPOM <- 
+  (Ilan.Goldfajn.semana.COPOM.ratio-1)*100
+percentual.Ilan.Goldfajn.semana.COPOM
 
 Ilan.Goldfajn.semana.ata <- filter(.data = base, 
                                    BCPresidente == "Ilan Goldfajn", 
@@ -649,8 +691,10 @@ Serie.Ilan.Goldfajn.semana.ata <-
 summary(Serie.Ilan.Goldfajn.semana.ata)
 class(Serie.Ilan.Goldfajn.semana.ata)
 Ilan.Goldfajn.semana.ata.ratio <- 
-  abs(mean(Serie.Ilan.Goldfajn.semana.ata))/abs(mean(Serie.Ilan.Goldfajn))
+  abs(median(Serie.Ilan.Goldfajn.semana.ata))/abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.semana.ata.ratio
+percentual.Ilan.Goldfajn.semana.ata <- (Ilan.Goldfajn.semana.ata.ratio-1)*100
+percentual.Ilan.Goldfajn.semana.ata
 
 Ilan.Goldfajn.depois.ata <- filter(.data = base, 
                                    BCPresidente == "Ilan Goldfajn", 
@@ -662,8 +706,10 @@ Serie.Ilan.Goldfajn.depois.ata <-
 summary(Serie.Ilan.Goldfajn.depois.ata)
 class(Serie.Ilan.Goldfajn.depois.ata)
 Ilan.Goldfajn.depois.ata.ratio <- 
-  abs(mean(Serie.Ilan.Goldfajn.depois.ata))/abs(mean(Serie.Ilan.Goldfajn))
+  abs(median(Serie.Ilan.Goldfajn.depois.ata))/abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.depois.ata.ratio
+percentual.Ilan.Goldfajn.depois.ata <- (Ilan.Goldfajn.depois.ata.ratio-1)*100
+percentual.Ilan.Goldfajn.depois.ata
 
 #Análise de intersecção das séries, para considerar o cenário nas análises:
 
