@@ -68,7 +68,7 @@ base <- read_delim("~/Monografia/Base/Base_completa_ingles.csv", "\t",
                                                 "2015", "2016", "2017", 
                                                 "2018")), 
                                     `IPC-S` = col_number()), 
-                   locale = locale(decimal_mark = ",", encoding = "ISO-8859-1"), 
+                   locale = locale(decimal_mark = ".", encoding = "UTF-8"), 
                    trim_ws = TRUE)
 #Este código importa a dataframe de maneira adequada. Função oriunda do pacote 
 #Readr
@@ -107,7 +107,7 @@ boxplot(base$desvio_de_expectativa ~ base$Ano_categ,
         xlab = "Ano", col='blue')
 boxplot(base$Coef._Var. ~ base$Ano_categ, 
         main = "Gráfico 4 - Coeficiente de Variação por Ano (em boxplot)", 
-        ylab = "Coeficiente de Variação", xlab = "Ano", col='red')
+        ylab = "Mediana do Coeficiente de Variação", xlab = "Ano", col='red')
 
 boxplot(base$desvio_de_expectativa ~ base$Mes_categ, 
         main = "Gráfico 5 - Desvio de Expectativa por Mês (em boxplot)", 
@@ -115,7 +115,7 @@ boxplot(base$desvio_de_expectativa ~ base$Mes_categ,
         col='green')
 boxplot(base$Coef._Var. ~ base$Mes_categ, 
         main = "Gráfico 6 - Coeficiente de Variação por Mês (em boxplot)", 
-        ylab = "Coeficiente de Variação", xlab = "Mês", col='orange')
+        ylab = "Mediana do Coeficiente de Variação", xlab = "Mês", col='orange')
 
 boxplot(base$desvio_de_expectativa ~ base$Semana_mes, 
         main = "Gráfico 7 - Desvio de Expectativa por Semana do Mês (em 
@@ -123,17 +123,23 @@ boxplot(base$desvio_de_expectativa ~ base$Semana_mes,
         xlab = "Semana do Mês", col='red')
 boxplot(base$Coef._Var. ~ base$Semana_mes, 
         main = "Gráfico 8 - Coeficiente de Variação por Semana do Mês (em 
-        boxplot)", ylab = "Coeficiente de Variação", xlab = "Semana do Mês", 
-        col='blue')
+        boxplot)", ylab = "Mediana do Coeficiente de Variação", 
+        xlab = "Semana do Mês", col='blue')
 
 par(mar = c(14, 5, 3, 3))
-filter(.data = base, base$Tipo_periodo!="Hiato", .preserve = TRUE)
-boxplot(base$desvio_de_expectativa ~ base$Tipo_periodo, 
-        subset = (base$Tipo_periodo != (c("Hiato", "Semana Mista", 
-                                         "Antes e pós"))),
-        main = "Desvio por evento do COPOM em pontos percentuais", 
-        ylab = "Desvio de expectativa (em pontos percentuais)", 
-        xlab = "", col='blue', las = 2)
+
+filteredtypebase <- 
+  base[base$Tipo_periodo!="Hiato"&base$Tipo_periodo!="Semana Mista"&
+         base$Tipo_periodo!="Antes e pós", ]
+filteredtypebase$Tipo_periodo <-droplevels(filteredtypebase$Tipo_periodo)
+boxplot(filteredtypebase$desvio_de_expectativa ~ filteredtypebase$Tipo_periodo,
+        main = "Gráfico 9 - Desvio de Expectativa por Evento do COPOM (em 
+        boxplot)", ylab = "Desvio de expectativa (em pontos percentuais)", 
+        xlab = "", col='orange', las = 2)
+boxplot(filteredtypebase$Coef._Var. ~ filteredtypebase$Tipo_periodo,
+        main = "Gráfico 10 - Coeficiente de Variação por Evento do COPOM (em 
+        boxplot)", ylab = "Coeficiente de Variação", xlab = "", col='green', 
+        las = 2)
 
 boxplot(base$'IPC-S' ~ base$BCPresidente, 
         main = "Inflação semanal (IPC-S) por presidente do Banco Central - em 
