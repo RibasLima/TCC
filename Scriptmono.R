@@ -89,11 +89,15 @@ plot(base$Data, base$desvio_de_expectativa,
 boxplot(base$desvio_de_expectativa)
 #Cria uma boxplot do desvio de expectativa
 
-par(mar = c(5, 5, 3, 3))
+par(mar = c(10, 5, 3, 4))
 boxplot(base$desvio_de_expectativa ~ base$BCPresidente, 
-        main = "Desvio de expectativa por presidente do Banco Central - em 
-        boxplot", ylab = "Desvio de expectativa (em pontos percentuais)", 
-        xlab = "Presidente do Banco Central",)
+        main = "Gráfico 11 - Desvio de Expectativa por Gestão do Banco Central 
+        (em boxplot)", ylab = "Desvio de Expectativa (em pontos percentuais)", 
+        xlab = "", col = 'blue', las = 2)
+boxplot(base$Coef._Var. ~ base$BCPresidente, 
+        main = "Gráfico 12 - Coeficiente de Variação por Gestão do Banco Central 
+        (em boxplot)", ylab = "Mediana do Coeficiente de Variação", 
+        xlab = "", col = 'red', las = 2)
 #Cria um boxplot do desvio de expectativa por gestão do Banco Central
 
 boxplot(base$desvio_de_expectativa ~ base$BCPresidente, 
@@ -365,6 +369,8 @@ Sem.acontecimentos <- filter(.data = base, Tipo_periodo == "Sem acontecimentos",
 View(Sem.acontecimentos)
 Serie.sem.acontecimentos <- ts(Sem.acontecimentos$desvio_de_expectativa, 
                                start = c(2003,1))
+Serie.coefvar.sem.acontecimentos <- ts(Sem.acontecimentos$Coef._Var., 
+                                       start = c(2003,1))
 summary(Serie.sem.acontecimentos)
 class(Serie.sem.acontecimentos)
 Sem.acontecimentos.ratio <- 
@@ -372,57 +378,89 @@ Sem.acontecimentos.ratio <-
 Sem.acontecimentos.ratio
 percentual.sem.acontecimentos <- (Sem.acontecimentos.ratio-1)*100
 percentual.sem.acontecimentos
+Sem.acontecimentos.coefvar.ratio <- 
+  abs(median(Serie.coefvar.sem.acontecimentos))/abs(median(Seriecoefvar))
+Sem.acontecimentos.coefvar.ratio
+percentual.coefvar.sem.acontecimentos <- 
+  (Sem.acontecimentos.coefvar.ratio-1)*100
+percentual.coefvar.sem.acontecimentos
 
 Antes.COPOM <- filter(.data = base, Tipo_periodo == "Semana antes do copom",
                              .preserve = TRUE)
 View(Antes.COPOM)
 Serie.antes.COPOM <- ts(Antes.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.antes.COPOM <- ts(Antes.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.antes.COPOM)
 class(Serie.antes.COPOM)
 Antes.COPOM.ratio <- abs(median(Serie.antes.COPOM))/abs(median(Serie))
 Antes.COPOM.ratio
 percentual.antes.COPOM <- (Antes.COPOM.ratio-1)*100
 percentual.antes.COPOM
+Antes.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.antes.COPOM))/abs(median(Seriecoefvar))
+Antes.COPOM.coefvar.ratio
+percentual.coefvar.antes.COPOM <- (Antes.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.antes.COPOM
 
 Semana.COPOM <- filter(.data = base, 
                        Tipo_periodo == "Semana da Reunião do COPOM",
                        .preserve = TRUE)
 View(Semana.COPOM)
 Serie.semana.COPOM <- ts(Semana.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.semana.COPOM <- ts(Semana.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.semana.COPOM)
 class(Serie.semana.COPOM)
 Semana.COPOM.ratio <- abs(median(Serie.semana.COPOM))/abs(median(Serie))
 Semana.COPOM.ratio
 percentual.semana.COPOM <- (Semana.COPOM.ratio-1)*100
 percentual.semana.COPOM
+Semana.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.semana.COPOM))/abs(median(Seriecoefvar))
+Semana.COPOM.coefvar.ratio
+percentual.coefvar.semana.COPOM <- (Semana.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.semana.COPOM
 
 Semana.ata <- filter(.data = base, Tipo_periodo == "Semana da Ata", 
                      .preserve = TRUE)
 View(Semana.ata)
 Serie.semana.ata <- ts(Semana.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.semana.ata <- ts(Semana.ata$Coef._Var., start = c(2003,1))
 summary(Serie.semana.ata)
 class(Serie.semana.ata)
 Semana.ata.ratio <- abs(median(Serie.semana.ata))/abs(median(Serie))
 Semana.ata.ratio
 percentual.semana.ata <- (Semana.ata.ratio-1)*100
 percentual.semana.ata
+Semana.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.semana.ata))/abs(median(Seriecoefvar))
+Semana.ata.coefvar.ratio
+percentual.coefvar.semana.ata <- (Semana.ata.coefvar.ratio-1)*100
+percentual.coefvar.semana.ata
 
 Depois.ata <- filter(.data = base, Tipo_periodo == "Semana pós anúncio da Ata", 
                      .preserve = TRUE)
 View(Depois.ata)
 Serie.depois.ata <- ts(Depois.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.depois.ata <- ts(Depois.ata$Coef._Var., start = c(2003,1))
 summary(Serie.depois.ata)
 class(Serie.depois.ata)
 Depois.ata.ratio <- abs(median(Serie.depois.ata))/abs(median(Serie))
 Depois.ata.ratio
 percentual.depois.ata <- (Depois.ata.ratio-1)*100
 percentual.depois.ata
+Depois.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.depois.ata))/abs(median(Seriecoefvar))
+Depois.ata.coefvar.ratio
+percentual.coefvar.depois.ata <- (Depois.ata.coefvar.ratio-1)*100
+percentual.coefvar.depois.ata
 
 Henrique.Meirelles <- filter(.data = base, BCPresidente == "Henrique Meirelles", 
                      .preserve = TRUE)
 View(Henrique.Meirelles)
 Serie.Henrique.Meirelles <- ts(Henrique.Meirelles$desvio_de_expectativa, 
                                start = c(2003,1))
+Serie.coefvar.Henrique.Meirelles <- ts(Henrique.Meirelles$Coef._Var., 
+                                       start = c(2003,1))
 summary(Serie.Henrique.Meirelles)
 class(Serie.Henrique.Meirelles)
 Henrique.Meirelles.ratio <- 
@@ -430,12 +468,20 @@ Henrique.Meirelles.ratio <-
 Henrique.Meirelles.ratio
 percentual.Henrique.Meirelles <- (Henrique.Meirelles.ratio-1)*100
 percentual.Henrique.Meirelles
+Henrique.Meirelles.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Henrique.Meirelles))/abs(median(Seriecoefvar))
+Henrique.Meirelles.coefvar.ratio
+percentual.coefvar.Henrique.Meirelles <- 
+  (Henrique.Meirelles.coefvar.ratio-1)*100
+percentual.coefvar.Henrique.Meirelles
 
 Alexandre.Tombini <- filter(.data = base, BCPresidente == "Alexandre Tombini", 
                              .preserve = TRUE)
 View(Alexandre.Tombini)
 Serie.Alexandre.Tombini <- ts(Alexandre.Tombini$desvio_de_expectativa,
                               start = c(2003,1))
+Serie.coefvar.Alexandre.Tombini <-ts(Alexandre.Tombini$Coef._Var., 
+                                     start = c(2003,1))
 summary(Serie.Alexandre.Tombini)
 class(Serie.Alexandre.Tombini)
 Alexandre.Tombini.ratio <- 
@@ -443,18 +489,25 @@ Alexandre.Tombini.ratio <-
 Alexandre.Tombini.ratio
 percentual.Alexandre.Tombini <- (Alexandre.Tombini.ratio-1)*100
 percentual.Alexandre.Tombini
+Alexandre.Tombini.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Alexandre.Tombini))/abs(median(Seriecoefvar))
+Alexandre.Tombini.coefvar.ratio
+percentual.coefvar.Alexandre.Tombini <- (Alexandre.Tombini.coefvar.ratio-1)*100
+percentual.coefvar.Alexandre.Tombini
 
 Ilan.Goldfajn <- filter(.data = base, BCPresidente == "Ilan Goldfajn", 
                             .preserve = TRUE)
 View(Ilan.Goldfajn)
 Serie.Ilan.Goldfajn <- ts(Ilan.Goldfajn$desvio_de_expectativa, 
                           start = c(2003,1))
+Serie.coefvar.Ilan.Goldfajn <- ts(Ilan.Goldfajn$Coef._Var., start = c(2003,1))
 summary(Serie.Ilan.Goldfajn)
 class(Serie.Ilan.Goldfajn)
-Ilan.Goldfajn.ratio <- abs(median(Serie.Ilan.Goldfajn))/abs(median(Serie))
-Ilan.Goldfajn.ratio
-percentual.Ilan.Goldfajn <- (Ilan.Goldfajn.ratio-1)*100
-percentual.Ilan.Goldfajn
+Ilan.Goldfajn.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Ilan.Goldfajn))/abs(median(Seriecoefvar))
+Ilan.Goldfajn.coefvar.ratio
+percentual.coefvar.Ilan.Goldfajn <- (Ilan.Goldfajn.coefvar.ratio-1)*100
+percentual.coefvar.Ilan.Goldfajn
 
 Henrique.Meirelles.sem.acontecimentos <- filter(.data = base, 
                                                 BCPresidente == 
@@ -466,6 +519,8 @@ View(Henrique.Meirelles.sem.acontecimentos)
 Serie.Henrique.Meirelles.sem.acontecimentos <- 
   ts(Henrique.Meirelles.sem.acontecimentos$desvio_de_expectativa, 
      start = c(2003,1))
+Serie.coefvar.Henrique.Meirelles.sem.acontecimentos <- 
+  ts(Henrique.Meirelles.sem.acontecimentos$Coef._Var., start = c(2003,1))
 summary(Serie.Henrique.Meirelles.sem.acontecimentos)
 class(Serie.Henrique.Meirelles.sem.acontecimentos)
 Henrique.Meirelles.sem.acontecimentos.ratio <- 
@@ -475,6 +530,13 @@ Henrique.Meirelles.sem.acontecimentos.ratio
 percentual.Henrique.Meirelles.sem.acontecimentos <- 
   (Henrique.Meirelles.sem.acontecimentos.ratio-1)*100
 percentual.Henrique.Meirelles.sem.acontecimentos
+Henrique.Meirelles.sem.acontecimentos.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Henrique.Meirelles.sem.acontecimentos))/
+  abs(median(Serie.coefvar.Henrique.Meirelles))
+Henrique.Meirelles.sem.acontecimentos.coefvar.ratio
+percentual.coefvar.Henrique.Meirelles.sem.acontecimentos <- 
+  (Henrique.Meirelles.sem.acontecimentos.coefvar.ratio-1)*100
+percentual.coefvar.Henrique.Meirelles.sem.acontecimentos
 
 Henrique.Meirelles.antes.COPOM <- filter(.data = base, 
                                          BCPresidente == "Henrique Meirelles",
@@ -484,6 +546,8 @@ Henrique.Meirelles.antes.COPOM <- filter(.data = base,
 View(Henrique.Meirelles.antes.COPOM)
 Serie.Henrique.Meirelles.antes.COPOM <- 
   ts(Henrique.Meirelles.antes.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Henrique.Meirelles.antes.COPOM <- 
+  ts(Henrique.Meirelles.antes.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.Henrique.Meirelles.antes.COPOM)
 class(Serie.Henrique.Meirelles.antes.COPOM)
 Henrique.Meirelles.antes.COPOM.ratio <- 
@@ -493,6 +557,13 @@ Henrique.Meirelles.antes.COPOM.ratio
 percentual.Henrique.Meirelles.antes.COPOM <- 
   (Henrique.Meirelles.antes.COPOM.ratio-1)*100
 percentual.Henrique.Meirelles.antes.COPOM
+Henrique.Meirelles.antes.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Henrique.Meirelles.antes.COPOM))/
+  abs(median(Serie.coefvar.Henrique.Meirelles))
+Henrique.Meirelles.antes.COPOM.coefvar.ratio
+percentual.coefvar.Henrique.Meirelles.antes.COPOM <- 
+  (Henrique.Meirelles.antes.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.Henrique.Meirelles.antes.COPOM
 
 Henrique.Meirelles.semana.COPOM <- filter(.data = base, 
                                           BCPresidente == "Henrique Meirelles",
@@ -502,6 +573,8 @@ Henrique.Meirelles.semana.COPOM <- filter(.data = base,
 View(Henrique.Meirelles.semana.COPOM)
 Serie.Henrique.Meirelles.semana.COPOM <- 
   ts(Henrique.Meirelles.semana.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Henrique.Meirelles.semana.COPOM <- 
+  ts(Henrique.Meirelles.semana.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.Henrique.Meirelles.semana.COPOM)
 class(Serie.Henrique.Meirelles.semana.COPOM)
 Henrique.Meirelles.semana.COPOM.ratio <- 
@@ -511,6 +584,13 @@ Henrique.Meirelles.semana.COPOM.ratio
 percentual.Henrique.Meirelles.semana.COPOM <- 
   (Henrique.Meirelles.semana.COPOM.ratio-1)*100
 percentual.Henrique.Meirelles.semana.COPOM
+Henrique.Meirelles.semana.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Henrique.Meirelles.semana.COPOM))/
+  abs(median(Serie.coefvar.Henrique.Meirelles))
+Henrique.Meirelles.semana.COPOM.coefvar.ratio
+percentual.coefvar.Henrique.Meirelles.semana.COPOM <- 
+  (Henrique.Meirelles.semana.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.Henrique.Meirelles.semana.COPOM
 
 Henrique.Meirelles.semana.ata <- filter(.data = base, 
                                         BCPresidente == "Henrique Meirelles",
@@ -519,6 +599,8 @@ Henrique.Meirelles.semana.ata <- filter(.data = base,
 View(Henrique.Meirelles.semana.ata)
 Serie.Henrique.Meirelles.semana.ata <- 
   ts(Henrique.Meirelles.semana.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Henrique.Meirelles.semana.ata <- 
+  ts(Henrique.Meirelles.semana.ata$Coef._Var., start = c(2003,1))
 summary(Serie.Henrique.Meirelles.semana.ata)
 class(Serie.Henrique.Meirelles.semana.ata)
 Henrique.Meirelles.semana.ata.ratio <- 
@@ -528,6 +610,13 @@ Henrique.Meirelles.semana.ata.ratio
 percentual.Henrique.Meirelles.semana.ata <- 
   (Henrique.Meirelles.semana.ata.ratio-1)*100
 percentual.Henrique.Meirelles.semana.ata
+Henrique.Meirelles.semana.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Henrique.Meirelles.semana.ata))/
+  abs(median(Serie.coefvar.Henrique.Meirelles))
+Henrique.Meirelles.semana.ata.coefvar.ratio
+percentual.coefvar.Henrique.Meirelles.semana.ata <- 
+  (Henrique.Meirelles.semana.ata.coefvar.ratio-1)*100
+percentual.coefvar.Henrique.Meirelles.semana.ata
 
 Henrique.Meirelles.depois.ata <- filter(.data = base, 
                                         BCPresidente == "Henrique Meirelles",
@@ -537,6 +626,8 @@ Henrique.Meirelles.depois.ata <- filter(.data = base,
 View(Henrique.Meirelles.depois.ata)
 Serie.Henrique.Meirelles.depois.ata <- 
   ts(Henrique.Meirelles.depois.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Henrique.Meirelles.depois.ata <- 
+  ts(Henrique.Meirelles.depois.ata$Coef._Var., start = c(2003,1))
 summary(Serie.Henrique.Meirelles.depois.ata)
 class(Serie.Henrique.Meirelles.depois.ata)
 Henrique.Meirelles.depois.ata.ratio <- 
@@ -546,6 +637,13 @@ Henrique.Meirelles.depois.ata.ratio
 percentual.Henrique.Meirelles.depois.ata <- 
   (Henrique.Meirelles.depois.ata.ratio-1)*100
 percentual.Henrique.Meirelles.depois.ata
+Henrique.Meirelles.depois.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Henrique.Meirelles.depois.ata))/
+  abs(median(Serie.coefvar.Henrique.Meirelles))
+Henrique.Meirelles.depois.ata.coefvar.ratio
+percentual.coefvar.Henrique.Meirelles.depois.ata <- 
+  (Henrique.Meirelles.depois.ata.coefvar.ratio-1)*100
+percentual.coefvar.Henrique.Meirelles.depois.ata
 
 Alexandre.Tombini.sem.acontecimentos <- filter(.data = base, 
                                               BCPresidente == 
