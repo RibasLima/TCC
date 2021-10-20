@@ -1,73 +1,63 @@
 library(readr)
-base <- read_delim("~/Monografia/Base/Base_completa_ingles.csv", "\t", 
-                   quote = "\"", col_names = TRUE, 
-                   col_types = cols(`1` = col_logical(), `10` = col_logical(),
-                                    `11` = col_logical(), `12` = col_logical(), 
-                                    `2` = col_logical(), `2003` = col_logical(),
-                                    `2004` = col_logical(),
-                                    `2005` = col_logical(), 
-                                    `2006` = col_logical(),
-                                    `2007` = col_logical(), 
-                                    `2008` = col_logical(),
-                                    `2009` = col_logical(), 
-                                    `2010` = col_logical(),
-                                    `2011` = col_logical(), 
-                                    `2012` = col_logical(),
-                                    `2013` = col_logical(), 
-                                    `2014` = col_logical(),
-                                    `2015` = col_logical(), 
-                                    `2016` = col_logical(),
-                                    `2017` = col_logical(), 
-                                    `2018` = col_logical(), `3` = col_logical(),
-                                    `4` = col_logical(), `5` = col_logical(), 
-                                    `6` = col_logical(), `7` = col_logical(),
-                                    `8` = col_logical(), `9` = col_logical(), 
-                                    Ano = col_integer(), 
-                                    Coef._Var. = col_number(), 
-                                    Data = col_date(format = "%m/%d/%Y"),
-                                    Dia_semana = col_integer(), 
-                                    Expectativa_ponderada = col_number(),
-                                    Goldfajn = col_logical(), 
-                                    Hiato = col_logical(),
-                                    `IPC-S` = col_number(), 
-                                    Mediana = col_number(), 
-                                    Meirelles = col_logical(), 
-                                    Mes = col_integer(), 
-                                    Sem_acontecimentos = col_logical(),
-                                    Tombini = col_logical(), 
-                                    antes_copom = col_logical(), 
-                                    cambio = col_number(), 
-                                    desvio_de_expectativa = col_number(),
-                                    semana_ata = col_logical(), 
-                                    semana_copom = col_logical(),
-                                    semana_pos = col_logical(),
-                                    Semana_mes = col_factor(levels = c("1", "2",
-                                                                       "3", "4",
-                                                                       "5")), 
-                                    Tipo_periodo = col_factor
+base <- read_csv("~/Monografia/Base/Base_completa_ingles.csv", quote = "\t", 
+                 col_names = TRUE, 
+                 col_types = cols(`1` = col_logical(), `10` = col_logical(),
+                                  `11` = col_logical(), `12` = col_logical(), 
+                                  `2` = col_logical(), `2003` = col_logical(),
+                                  `2004` = col_logical(),`2005` = col_logical(), 
+                                  `2006` = col_logical(),`2007` = col_logical(), 
+                                  `2008` = col_logical(), `2009` = col_logical(), 
+                                  `2010` = col_logical(), `2011` = col_logical(), 
+                                  `2012` = col_logical(), `2013` = col_logical(), 
+                                  `2014` = col_logical(), `2015` = col_logical(), 
+                                  `2016` = col_logical(), `2017` = col_logical(), 
+                                  `2018` = col_logical(), `3` = col_logical(),
+                                  `4` = col_logical(), `5` = col_logical(), 
+                                  `6` = col_logical(), `7` = col_logical(),
+                                  `8` = col_logical(), `9` = col_logical(), 
+                                  Ano = col_integer(), Coef._Var. = col_number(), 
+                                  Data = col_date(format = "%m/%d/%Y"),
+                                  Dia_semana = col_integer(), 
+                                  Expectativa_ponderada = col_number(),
+                                  Goldfajn = col_logical(), 
+                                  Hiato = col_logical(), `IPC-S` = col_number(), 
+                                  Mediana = col_number(), 
+                                  Meirelles = col_logical(), Mes = col_integer(), 
+                                  Sem_acontecimentos = col_logical(),
+                                  Tombini = col_logical(), 
+                                  antes_copom = col_logical(), 
+                                  cambio = col_number(), 
+                                  desvio_de_expectativa = col_number(),
+                                  semana_ata = col_logical(), 
+                                  semana_copom = col_logical(),
+                                  semana_pos = col_logical(),
+                                  Semana_mes = col_factor(levels = c("1", "2",
+                                                                     "3", "4",
+                                                                     "5")), 
+                                  Tipo_periodo = col_factor
                                     (levels = c("Sem acontecimentos", 
                                                 "Semana antes do copom", 
-                                                "Semana da Reunião do COPOM",
+                                                "Semana do COPOM",
                                                 "Semana da Ata", "Hiato",
-                                                "Semana pós anúncio da Ata",
+                                                "Semana depois da Ata",
                                                 "Semana Mista", "Antes e pós")),
-                                    BCPresidente = col_factor
+                                  BCPresidente = col_factor
                                     (levels = c("Henrique Meirelles", 
                                                 "Alexandre Tombini", 
                                                 "Ilan Goldfajn")), 
-                                    Mes_categ = col_factor
+                                  Mes_categ = col_factor
                                     (levels = c("Janeiro", "Fevereiro", "Março",
                                                 "Abril", "Maio", "Junho",
                                                 "Julho", "Agosto", "Setembro",
                                                 "Outubro", "Novembro", 
                                                 "Dezembro")), 
-                                    Ano_categ = col_factor 
+                                  Ano_categ = col_factor 
                                     (levels = c("2003", "2004", "2005", "2006",
                                                 "2007", "2008", "2009", "2010",
                                                 "2011", "2012", "2013", "2014",
                                                 "2015", "2016", "2017", 
                                                 "2018")), 
-                                    `IPC-S` = col_number()), 
+                                  `IPC-S` = col_number()), 
                    locale = locale(decimal_mark = ".", encoding = "UTF-8"), 
                    trim_ws = TRUE)
 #Este código importa a dataframe de maneira adequada. Função oriunda do pacote 
@@ -161,11 +151,15 @@ boxplot(base$cambio ~ base$BCPresidente,
 
 #Produz gráficos boxplot selecionados.
 
-decomposedSerie <- decompose(Serie, type = c("additive", "multiplicative"), 
-                             filter = NULL)
+decomposedSerie <- decompose(Serie, type = "additive", filter = NULL)
 #Decompõe a série, descrevendo sua sazonalidade, tendência e erro
 
+par(col.main='white')
 plot (decomposedSerie)
+par(mar = c(5, 5, 2, 3))
+par(col.main='black')
+title("Gráfico 13 - Decomposição da Série de Tempo Completa do Desvio de 
+      Expectativa (Série Aditiva)")
 #Plota a decomposição, possibilitando o entendimento sobre estacionariedade
 #É uma série aditiva, uma vez que não há uma aproximação com uma curva 
 #exponencial dos resultados e a série tem uma amplitude consideravelmente baixa.
@@ -403,7 +397,7 @@ percentual.coefvar.antes.COPOM <- (Antes.COPOM.coefvar.ratio-1)*100
 percentual.coefvar.antes.COPOM
 
 Semana.COPOM <- filter(.data = base, 
-                       Tipo_periodo == "Semana da Reunião do COPOM",
+                       Tipo_periodo == "Semana do COPOM",
                        .preserve = TRUE)
 View(Semana.COPOM)
 Serie.semana.COPOM <- ts(Semana.COPOM$desvio_de_expectativa, start = c(2003,1))
@@ -437,7 +431,7 @@ Semana.ata.coefvar.ratio
 percentual.coefvar.semana.ata <- (Semana.ata.coefvar.ratio-1)*100
 percentual.coefvar.semana.ata
 
-Depois.ata <- filter(.data = base, Tipo_periodo == "Semana pós anúncio da Ata", 
+Depois.ata <- filter(.data = base, Tipo_periodo == "Semana depois da Ata", 
                      .preserve = TRUE)
 View(Depois.ata)
 Serie.depois.ata <- ts(Depois.ata$desvio_de_expectativa, start = c(2003,1))
@@ -568,7 +562,7 @@ percentual.coefvar.Henrique.Meirelles.antes.COPOM
 Henrique.Meirelles.semana.COPOM <- filter(.data = base, 
                                           BCPresidente == "Henrique Meirelles",
                                           Tipo_periodo == 
-                                            "Semana da Reunião do COPOM",
+                                            "Semana do COPOM",
                                           .preserve = TRUE)
 View(Henrique.Meirelles.semana.COPOM)
 Serie.Henrique.Meirelles.semana.COPOM <- 
@@ -621,7 +615,7 @@ percentual.coefvar.Henrique.Meirelles.semana.ata
 Henrique.Meirelles.depois.ata <- filter(.data = base, 
                                         BCPresidente == "Henrique Meirelles",
                                         Tipo_periodo == 
-                                          "Semana pós anúncio da Ata",
+                                          "Semana depois da Ata",
                                         .preserve = TRUE)
 View(Henrique.Meirelles.depois.ata)
 Serie.Henrique.Meirelles.depois.ata <- 
@@ -655,6 +649,8 @@ View(Alexandre.Tombini.sem.acontecimentos)
 Serie.Alexandre.Tombini.sem.acontecimentos <- 
   ts(Alexandre.Tombini.sem.acontecimentos$desvio_de_expectativa, 
      start = c(2003,1))
+Serie.coefvar.Alexandre.Tombini.sem.acontecimentos <- 
+  ts(Alexandre.Tombini.sem.acontecimentos$Coef._Var., start = c(2003,1))
 summary(Serie.Alexandre.Tombini.sem.acontecimentos)
 class(Serie.Alexandre.Tombini.sem.acontecimentos)
 Alexandre.Tombini.sem.acontecimentos.ratio <- 
@@ -664,6 +660,13 @@ Alexandre.Tombini.sem.acontecimentos.ratio
 percentual.Alexandre.Tombini.sem.acontecimentos <- 
   (Alexandre.Tombini.sem.acontecimentos.ratio-1)*100
 percentual.Alexandre.Tombini.sem.acontecimentos
+Alexandre.Tombini.sem.acontecimentos.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Alexandre.Tombini.sem.acontecimentos))/
+  abs(median(Serie.coefvar.Alexandre.Tombini))
+Alexandre.Tombini.sem.acontecimentos.coefvar.ratio
+percentual.coefvar.Alexandre.Tombini.sem.acontecimentos <- 
+  (Alexandre.Tombini.sem.acontecimentos.coefvar.ratio-1)*100
+percentual.coefvar.Alexandre.Tombini.sem.acontecimentos
 
 Alexandre.Tombini.antes.COPOM <- filter(.data = base, 
                                         BCPresidente == "Alexandre Tombini", 
@@ -672,6 +675,8 @@ Alexandre.Tombini.antes.COPOM <- filter(.data = base,
 View(Alexandre.Tombini.antes.COPOM)
 Serie.Alexandre.Tombini.antes.COPOM <- 
   ts(Alexandre.Tombini.antes.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Alexandre.Tombini.antes.COPOM <- 
+  ts(Alexandre.Tombini.antes.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.Alexandre.Tombini.antes.COPOM)
 class(Serie.Alexandre.Tombini.antes.COPOM)
 Alexandre.Tombini.antes.COPOM.ratio <- 
@@ -681,15 +686,24 @@ Alexandre.Tombini.antes.COPOM.ratio
 percentual.Alexandre.Tombini.antes.COPOM <- 
   (Alexandre.Tombini.antes.COPOM.ratio-1)*100
 percentual.Alexandre.Tombini.antes.COPOM
+Alexandre.Tombini.antes.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Alexandre.Tombini.antes.COPOM))/
+  abs(median(Serie.coefvar.Alexandre.Tombini))
+Alexandre.Tombini.antes.COPOM.coefvar.ratio
+percentual.coefvar.Alexandre.Tombini.antes.COPOM <- 
+  (Alexandre.Tombini.antes.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.Alexandre.Tombini.antes.COPOM
 
 Alexandre.Tombini.semana.COPOM <- filter(.data = base, 
                                          BCPresidente == "Alexandre Tombini", 
                                          Tipo_periodo == 
-                                           "Semana da Reunião do COPOM", 
+                                           "Semana do COPOM", 
                                          .preserve = TRUE)
 View(Alexandre.Tombini.semana.COPOM)
 Serie.Alexandre.Tombini.semana.COPOM <- 
   ts(Alexandre.Tombini.semana.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Alexandre.Tombini.semana.COPOM <- 
+  ts(Alexandre.Tombini.semana.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.Alexandre.Tombini.semana.COPOM)
 class(Serie.Alexandre.Tombini.semana.COPOM)
 Alexandre.Tombini.semana.COPOM.ratio <- 
@@ -699,6 +713,13 @@ Alexandre.Tombini.semana.COPOM.ratio
 percentual.Alexandre.Tombini.semana.COPOM <- 
   (Alexandre.Tombini.semana.COPOM.ratio-1)*100
 percentual.Alexandre.Tombini.semana.COPOM
+Alexandre.Tombini.semana.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Alexandre.Tombini.semana.COPOM))/
+  abs(median(Serie.coefvar.Alexandre.Tombini))
+Alexandre.Tombini.semana.COPOM.coefvar.ratio
+percentual.coefvar.Alexandre.Tombini.semana.COPOM <- 
+  (Alexandre.Tombini.semana.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.Alexandre.Tombini.semana.COPOM
 
 Alexandre.Tombini.semana.ata <- filter(.data = base, 
                                        BCPresidente == "Alexandre Tombini", 
@@ -707,24 +728,28 @@ Alexandre.Tombini.semana.ata <- filter(.data = base,
 View(Alexandre.Tombini.semana.ata)
 Serie.Alexandre.Tombini.semana.ata <- 
   ts(Alexandre.Tombini.semana.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Alexandre.Tombini.semana.ata <- 
+  ts(Alexandre.Tombini.semana.ata$Coef._Var., start = c(2003,1))
 summary(Serie.Alexandre.Tombini.semana.ata)
 class(Serie.Alexandre.Tombini.semana.ata)
-Alexandre.Tombini.semana.ata.ratio <- 
-  abs(median(Serie.Alexandre.Tombini.semana.ata))/
-  abs(median(Serie.Alexandre.Tombini))
-Alexandre.Tombini.semana.ata.ratio
-percentual.Alexandre.Tombini.semana.ata <- 
-  (Alexandre.Tombini.semana.ata.ratio-1)*100
-percentual.Alexandre.Tombini.semana.ata
+Alexandre.Tombini.semana.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Alexandre.Tombini.semana.ata))/
+  abs(median(Serie.coefvar.Alexandre.Tombini))
+Alexandre.Tombini.semana.ata.coefvar.ratio
+percentual.coefvar.Alexandre.Tombini.semana.ata <- 
+  (Alexandre.Tombini.semana.ata.coefvar.ratio-1)*100
+percentual.coefvar.Alexandre.Tombini.semana.ata
 
 Alexandre.Tombini.depois.ata <- filter(.data = base, 
                                        BCPresidente == "Alexandre Tombini", 
                                        Tipo_periodo == 
-                                         "Semana pós anúncio da Ata", 
+                                         "Semana depois da Ata", 
                                        .preserve = TRUE)
 View(Alexandre.Tombini.depois.ata)
 Serie.Alexandre.Tombini.depois.ata <- 
   ts(Alexandre.Tombini.depois.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Alexandre.Tombini.depois.ata <- 
+  ts(Alexandre.Tombini.depois.ata$Coef._Var., start = c(2003,1))
 summary(Serie.Alexandre.Tombini.depois.ata)
 class(Serie.Alexandre.Tombini.depois.ata)
 Alexandre.Tombini.depois.ata.ratio <- 
@@ -734,6 +759,13 @@ Alexandre.Tombini.depois.ata.ratio
 percentual.Alexandre.Tombini.depois.ata <- 
   (Alexandre.Tombini.depois.ata.ratio-1)*100
 percentual.Alexandre.Tombini.depois.ata
+Alexandre.Tombini.depois.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Alexandre.Tombini.depois.ata))/
+  abs(median(Serie.coefvar.Alexandre.Tombini))
+Alexandre.Tombini.depois.ata.coefvar.ratio
+percentual.coefvar.Alexandre.Tombini.depois.ata <- 
+  (Alexandre.Tombini.depois.ata.coefvar.ratio-1)*100
+percentual.coefvar.Alexandre.Tombini.depois.ata
 
 Ilan.Goldfajn.sem.acontecimentos <- filter(.data = base, 
                                            BCPresidente == "Ilan Goldfajn", 
@@ -742,6 +774,8 @@ Ilan.Goldfajn.sem.acontecimentos <- filter(.data = base,
 View(Ilan.Goldfajn.sem.acontecimentos)
 Serie.Ilan.Goldfajn.sem.acontecimentos <- 
   ts(Ilan.Goldfajn.sem.acontecimentos$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Ilan.Goldfajn.sem.acontecimentos <- 
+  ts(Ilan.Goldfajn.sem.acontecimentos$Coef._Var., start = c(2003,1))
 summary(Serie.Ilan.Goldfajn.sem.acontecimentos)
 class(Serie.Ilan.Goldfajn.sem.acontecimentos)
 Ilan.Goldfajn.sem.acontecimentos.ratio <- 
@@ -751,6 +785,13 @@ Ilan.Goldfajn.sem.acontecimentos.ratio
 percentual.Ilan.Goldfajn.sem.acontecimentos <- 
   (Ilan.Goldfajn.sem.acontecimentos.ratio-1)*100
 percentual.Ilan.Goldfajn.sem.acontecimentos
+Ilan.Goldfajn.sem.acontecimentos.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Ilan.Goldfajn.sem.acontecimentos))/
+  abs(median(Serie.coefvar.Ilan.Goldfajn))
+Ilan.Goldfajn.sem.acontecimentos.coefvar.ratio
+percentual.coefvar.Ilan.Goldfajn.sem.acontecimentos <- 
+  (Ilan.Goldfajn.sem.acontecimentos.coefvar.ratio-1)*100
+percentual.coefvar.Ilan.Goldfajn.sem.acontecimentos
 
 Ilan.Goldfajn.antes.COPOM <- filter(.data = base, 
                                     BCPresidente == "Ilan Goldfajn", 
@@ -759,31 +800,47 @@ Ilan.Goldfajn.antes.COPOM <- filter(.data = base,
 View(Ilan.Goldfajn.antes.COPOM)
 Serie.Ilan.Goldfajn.antes.COPOM <- 
   ts(Ilan.Goldfajn.antes.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Ilan.Goldfajn.antes.COPOM <- 
+  ts(Ilan.Goldfajn.antes.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.Ilan.Goldfajn.antes.COPOM)
 class(Serie.Ilan.Goldfajn.antes.COPOM)
 Ilan.Goldfajn.antes.COPOM.ratio <- 
   abs(median(Serie.Ilan.Goldfajn.antes.COPOM))/abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.antes.COPOM.ratio
-percentual.Ilan.Goldfajn.antes.COPOM <- 
-  (Ilan.Goldfajn.antes.COPOM.ratio-1)*100
+percentual.Ilan.Goldfajn.antes.COPOM <- (Ilan.Goldfajn.antes.COPOM.ratio-1)*100
 percentual.Ilan.Goldfajn.antes.COPOM
+Ilan.Goldfajn.antes.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Ilan.Goldfajn.antes.COPOM))/
+  abs(median(Serie.coefvar.Ilan.Goldfajn))
+Ilan.Goldfajn.antes.COPOM.coefvar.ratio
+percentual.coefvar.Ilan.Goldfajn.antes.COPOM <- 
+  (Ilan.Goldfajn.antes.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.Ilan.Goldfajn.antes.COPOM
 
 Ilan.Goldfajn.semana.COPOM <- filter(.data = base, 
                                      BCPresidente == "Ilan Goldfajn", 
                                      Tipo_periodo == 
-                                       "Semana da Reunião do COPOM", 
+                                       "Semana do COPOM", 
                                      .preserve = TRUE)
 View(Ilan.Goldfajn.semana.COPOM)
 Serie.Ilan.Goldfajn.semana.COPOM <- 
   ts(Ilan.Goldfajn.semana.COPOM$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Ilan.Goldfajn.semana.COPOM <- 
+  ts(Ilan.Goldfajn.semana.COPOM$Coef._Var., start = c(2003,1))
 summary(Serie.Ilan.Goldfajn.semana.COPOM)
 class(Serie.Ilan.Goldfajn.semana.COPOM)
 Ilan.Goldfajn.semana.COPOM.ratio <- 
   abs(median(Serie.Ilan.Goldfajn.semana.COPOM))/abs(median(Serie.Ilan.Goldfajn))
 Ilan.Goldfajn.semana.COPOM.ratio
-percentual.Ilan.Goldfajn.semana.COPOM <- 
-  (Ilan.Goldfajn.semana.COPOM.ratio-1)*100
+percentual.Ilan.Goldfajn.semana.COPOM <- (Ilan.Goldfajn.semana.COPOM.ratio-1)*100
 percentual.Ilan.Goldfajn.semana.COPOM
+Ilan.Goldfajn.semana.COPOM.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Ilan.Goldfajn.semana.COPOM))/
+  abs(median(Serie.coefvar.Ilan.Goldfajn))
+Ilan.Goldfajn.semana.COPOM.coefvar.ratio
+percentual.coefvar.Ilan.Goldfajn.semana.COPOM <- 
+  (Ilan.Goldfajn.semana.COPOM.coefvar.ratio-1)*100
+percentual.coefvar.Ilan.Goldfajn.semana.COPOM
 
 Ilan.Goldfajn.semana.ata <- filter(.data = base, 
                                    BCPresidente == "Ilan Goldfajn", 
@@ -792,6 +849,8 @@ Ilan.Goldfajn.semana.ata <- filter(.data = base,
 View(Ilan.Goldfajn.semana.ata)
 Serie.Ilan.Goldfajn.semana.ata <- 
   ts(Ilan.Goldfajn.semana.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Ilan.Goldfajn.semana.ata <- 
+  ts(Ilan.Goldfajn.semana.ata$Coef._Var., start = c(2003,1))
 summary(Serie.Ilan.Goldfajn.semana.ata)
 class(Serie.Ilan.Goldfajn.semana.ata)
 Ilan.Goldfajn.semana.ata.ratio <- 
@@ -799,14 +858,23 @@ Ilan.Goldfajn.semana.ata.ratio <-
 Ilan.Goldfajn.semana.ata.ratio
 percentual.Ilan.Goldfajn.semana.ata <- (Ilan.Goldfajn.semana.ata.ratio-1)*100
 percentual.Ilan.Goldfajn.semana.ata
+Ilan.Goldfajn.semana.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Ilan.Goldfajn.semana.ata))/
+  abs(median(Serie.coefvar.Ilan.Goldfajn))
+Ilan.Goldfajn.semana.ata.coefvar.ratio
+percentual.coefvar.Ilan.Goldfajn.semana.ata <- 
+  (Ilan.Goldfajn.semana.ata.coefvar.ratio-1)*100
+percentual.coefvar.Ilan.Goldfajn.semana.ata
 
 Ilan.Goldfajn.depois.ata <- filter(.data = base, 
                                    BCPresidente == "Ilan Goldfajn", 
-                                   Tipo_periodo == "Semana pós anúncio da Ata", 
+                                   Tipo_periodo == "Semana depois da Ata", 
                                    .preserve = TRUE)
 View(Ilan.Goldfajn.depois.ata)
 Serie.Ilan.Goldfajn.depois.ata <- 
   ts(Ilan.Goldfajn.depois.ata$desvio_de_expectativa, start = c(2003,1))
+Serie.coefvar.Ilan.Goldfajn.depois.ata <- 
+  ts(Ilan.Goldfajn.depois.ata$Coef._Var., start = c(2003,1))
 summary(Serie.Ilan.Goldfajn.depois.ata)
 class(Serie.Ilan.Goldfajn.depois.ata)
 Ilan.Goldfajn.depois.ata.ratio <- 
@@ -814,6 +882,13 @@ Ilan.Goldfajn.depois.ata.ratio <-
 Ilan.Goldfajn.depois.ata.ratio
 percentual.Ilan.Goldfajn.depois.ata <- (Ilan.Goldfajn.depois.ata.ratio-1)*100
 percentual.Ilan.Goldfajn.depois.ata
+Ilan.Goldfajn.depois.ata.coefvar.ratio <- 
+  abs(median(Serie.coefvar.Ilan.Goldfajn.depois.ata))/
+  abs(median(Serie.coefvar.Ilan.Goldfajn))
+Ilan.Goldfajn.depois.ata.coefvar.ratio
+percentual.coefvar.Ilan.Goldfajn.depois.ata <- 
+  (Ilan.Goldfajn.depois.ata.coefvar.ratio-1)*100
+percentual.coefvar.Ilan.Goldfajn.depois.ata
 
 #Análise de intersecção das séries, para considerar o cenário nas análises:
 
@@ -869,10 +944,23 @@ plot(decomposedSerie)
 TrendSerie <- decomposedSerie$trend
 SeasonalSerie <- decomposedSerie$seasonal
 LegendNames <- c(TrendSerie, SeasonalSerie)
+par(mar = c(5,5,5,3))
 ts.plot(cbind(TrendSerie, TrendSerie*SeasonalSerie), lty = 1:2, 
         ylab = "Desvio de expectativa - em pontos percentuais", 
-        col = c("red", "blue"))
+        col = c("red", "blue"), main = "Gráfico 14 - Componente de Tendência e 
+        Componente de Sazonalidade da Série de Tempo Completa do Desvio de 
+        Expectativa")
 legend("bottomleft", c("Trend", "Seasonal"), col = c("red", "blue"), lty = 1:2)
+#Analisando a função de autocovariância e autocorrelação da série
+
+par(col.main='white')
+acf(x = decomposedSerie$random, lag.max = 30, type = c("correlation"), 
+    plot = TRUE, na.action = na.pass, demean = TRUE)
+par(mar = c(5, 5, 5, 5))
+par(col.main='black')
+title("Gráfico 14 - Função de Autocorrelação da Série de Tempo do 
+      Desvio de Expectativa - apenas Componente Random")
+
 cov(expec, dolar)
 cov(expec2, ipcs)
 cov(expec3, ibcbr)
@@ -945,3 +1033,4 @@ print(acf(ts.union(randomSerie, randomSerieIBCComplete), na.action = na.pass))
 Serie.hw1 <- HoltWinters(Serie, beta = 0, gamma = 0)
 summary(Serie)
 frequency(Serie)
+library(ggplot2)
