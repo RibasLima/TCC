@@ -94,13 +94,11 @@ boxplot(base$desvio_de_expectativa ~ base$BCPresidente,
         main = "Desvio de expectativa por presidente do Banco Central - em 
         boxplot", ylab = "Desvio de expectativa (em pontos percentuais)", 
         xlab = "Presidente do Banco Central", col='red')
-
-boxplot(base$desvio_de_expectativa ~ base$Ano_categ, 
-        main = "Gráfico 3 - Desvio de Expectativa por Ano (em boxplot)", 
-        ylab = "Desvio de Expectativa (em pontos percentuais)", 
-        xlab = "Ano", col='blue')
-boxplot(base$Coef._Var. ~ base$Ano_categ, 
-        main = "Gráfico 4 - Coeficiente de Variação por Ano (em boxplot)", 
+par(mar = c(5,5,2,3))
+boxplot(base$desvio_de_expectativa ~ base$Ano_categ, main = "",
+        ylab = "Desvio de Expectativa (em pontos percentuais)", xlab = "Ano", 
+        col='blue')
+boxplot(base$Coef._Var. ~ base$Ano_categ, main = "", 
         ylab = "Mediana do Coeficiente de Variação", xlab = "Ano", col='red')
 
 boxplot(base$desvio_de_expectativa ~ base$Mes_categ, 
@@ -954,12 +952,20 @@ legend("bottomleft", c("Trend", "Seasonal"), col = c("red", "blue"), lty = 1:2)
 #Analisando a função de autocovariância e autocorrelação da série
 
 par(col.main='white')
-acf(x = decomposedSerie$random, lag.max = 30, type = c("correlation"), 
+acf(x = decomposedSerie$random, lag.max = 52, type = c("correlation"), 
     plot = TRUE, na.action = na.pass, demean = TRUE)
 par(mar = c(5, 5, 5, 5))
 par(col.main='black')
 title("Gráfico 14 - Função de Autocorrelação da Série de Tempo do 
       Desvio de Expectativa - apenas Componente Random")
+acf(x = decomposedSerie$random, lag.max = 52, type = c("covariance"), 
+    plot = TRUE, na.action = na.pass, demean = TRUE)
+library(tseries)
+adf.test(Serie)
+
+#escrevendo uma função para usar SBC, para selecionar lag
+require("urca")
+summary(ur.df(y=Serie, type = "trend", selectlags = "BIC"))
 
 cov(expec, dolar)
 cov(expec2, ipcs)
