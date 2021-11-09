@@ -81,12 +81,10 @@ boxplot(base$desvio_de_expectativa)
 
 par(mar = c(10, 5, 3, 4))
 boxplot(base$desvio_de_expectativa ~ base$BCPresidente, 
-        main = "Gráfico 11 - Desvio de Expectativa por Gestão do Banco Central 
-        (em boxplot)", ylab = "Desvio de Expectativa (em pontos percentuais)", 
+        main = "", ylab = "Desvio de Expectativa (em pontos percentuais)", 
         xlab = "", col = 'blue', las = 2)
 boxplot(base$Coef._Var. ~ base$BCPresidente, 
-        main = "Gráfico 12 - Coeficiente de Variação por Gestão do Banco Central 
-        (em boxplot)", ylab = "Mediana do Coeficiente de Variação", 
+        main = "", ylab = "Mediana do Coeficiente de Variação", 
         xlab = "", col = 'red', las = 2)
 #Cria um boxplot do desvio de expectativa por gestão do Banco Central
 
@@ -102,20 +100,17 @@ boxplot(base$Coef._Var. ~ base$Ano_categ, main = "",
         ylab = "Mediana do Coeficiente de Variação", xlab = "Ano", col='red')
 
 boxplot(base$desvio_de_expectativa ~ base$Mes_categ, 
-        main = "Gráfico 5 - Desvio de Expectativa por Mês (em boxplot)", 
-        ylab = "Desvio de Expectativa (em pontos percentuais)", xlab = "Mês", 
-        col='green')
+        main = "", ylab = "Desvio de Expectativa (em pontos percentuais)", 
+        xlab = "Mês", col='green')
 boxplot(base$Coef._Var. ~ base$Mes_categ, 
-        main = "Gráfico 6 - Coeficiente de Variação por Mês (em boxplot)", 
-        ylab = "Mediana do Coeficiente de Variação", xlab = "Mês", col='orange')
+        main = "", ylab = "Mediana do Coeficiente de Variação", xlab = "Mês", 
+        col='orange')
 
 boxplot(base$desvio_de_expectativa ~ base$Semana_mes, 
-        main = "Gráfico 7 - Desvio de Expectativa por Semana do Mês (em 
-        boxplot)", ylab = "Desvio de Expectativa (em pontos percentuais)", 
+        main = "", ylab = "Desvio de Expectativa (em pontos percentuais)", 
         xlab = "Semana do Mês", col='red')
 boxplot(base$Coef._Var. ~ base$Semana_mes, 
-        main = "Gráfico 8 - Coeficiente de Variação por Semana do Mês (em 
-        boxplot)", ylab = "Mediana do Coeficiente de Variação", 
+        main = "", ylab = "Mediana do Coeficiente de Variação", 
         xlab = "Semana do Mês", col='blue')
 
 par(mar = c(14, 5, 3, 3))
@@ -125,12 +120,10 @@ filteredtypebase <-
          base$Tipo_periodo!="Antes e pós", ]
 filteredtypebase$Tipo_periodo <-droplevels(filteredtypebase$Tipo_periodo)
 boxplot(filteredtypebase$desvio_de_expectativa ~ filteredtypebase$Tipo_periodo,
-        main = "Gráfico 9 - Desvio de Expectativa por Evento do COPOM (em 
-        boxplot)", ylab = "Desvio de expectativa (em pontos percentuais)", 
+        main = "", ylab = "Desvio de expectativa (em pontos percentuais)", 
         xlab = "", col='orange', las = 2)
 boxplot(filteredtypebase$Coef._Var. ~ filteredtypebase$Tipo_periodo,
-        main = "Gráfico 10 - Coeficiente de Variação por Evento do COPOM (em 
-        boxplot)", ylab = "Coeficiente de Variação", xlab = "", col='green', 
+        main = "", ylab = "Coeficiente de Variação", xlab = "", col='green', 
         las = 2)
 
 boxplot(base$'IPC-S' ~ base$BCPresidente, 
@@ -153,11 +146,9 @@ decomposedSerie <- decompose(Serie, type = "additive", filter = NULL)
 #Decompõe a série, descrevendo sua sazonalidade, tendência e erro
 
 par(col.main='white')
+par(mar = c(2, 3, 2, 3))
 plot (decomposedSerie)
-par(mar = c(5, 5, 2, 3))
-par(col.main='black')
-title("Gráfico 13 - Decomposição da Série de Tempo Completa do Desvio de 
-      Expectativa (Série Aditiva)")
+
 #Plota a decomposição, possibilitando o entendimento sobre estacionariedade
 #É uma série aditiva, uma vez que não há uma aproximação com uma curva 
 #exponencial dos resultados e a série tem uma amplitude consideravelmente baixa.
@@ -945,9 +936,7 @@ LegendNames <- c(TrendSerie, SeasonalSerie)
 par(mar = c(5,5,5,3))
 ts.plot(cbind(TrendSerie, TrendSerie*SeasonalSerie), lty = 1:2, 
         ylab = "Desvio de expectativa - em pontos percentuais", 
-        col = c("red", "blue"), main = "Gráfico 14 - Componente de Tendência e 
-        Componente de Sazonalidade da Série de Tempo Completa do Desvio de 
-        Expectativa")
+        col = c("red", "blue"), main = "")
 legend("bottomleft", c("Trend", "Seasonal"), col = c("red", "blue"), lty = 1:2)
 #Analisando a função de autocovariância e autocorrelação da série
 
@@ -966,6 +955,8 @@ adf.test(Serie)
 #escrevendo uma função para usar SBC, para selecionar lag
 require("urca")
 summary(ur.df(y=Serie, type = "trend", selectlags = "BIC"))
+summary(ur.df(y=Serie, type = "drift", selectlags = "BIC"))
+summary(ur.df(y=Serie, type = "none", selectlags = "BIC"))
 
 cov(expec, dolar)
 cov(expec2, ipcs)
