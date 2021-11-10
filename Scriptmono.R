@@ -940,13 +940,12 @@ ts.plot(cbind(TrendSerie, TrendSerie*SeasonalSerie), lty = 1:2,
 legend("bottomleft", c("Trend", "Seasonal"), col = c("red", "blue"), lty = 1:2)
 #Analisando a função de autocovariância e autocorrelação da série
 
+par(mar = c(5, 5, 1, 3))
 par(col.main='white')
-acf(x = decomposedSerie$random, lag.max = 52, type = c("correlation"), 
-    plot = TRUE, na.action = na.pass, demean = TRUE)
-par(mar = c(5, 5, 5, 5))
-par(col.main='black')
-title("Gráfico 14 - Função de Autocorrelação da Série de Tempo do 
-      Desvio de Expectativa - apenas Componente Random")
+acf(x = Serie, lag.max = 52, type = c("correlation"), plot = TRUE, 
+    na.action = na.pass, demean = TRUE)
+
+
 acf(x = decomposedSerie$random, lag.max = 52, type = c("covariance"), 
     plot = TRUE, na.action = na.pass, demean = TRUE)
 library(tseries)
@@ -956,6 +955,7 @@ adf.test(Serie)
 require("urca")
 summary(ur.df(y=Serie, type = "trend", selectlags = "BIC"))
 summary(ur.df(y=Serie, type = "drift", selectlags = "BIC"))
+summary(ur.kpss(y=Serie, type="tau", lags="long"))
 summary(ur.df(y=Serie, type = "none", selectlags = "BIC"))
 
 cov(expec, dolar)
