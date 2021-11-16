@@ -953,10 +953,29 @@ adf.test(Serie)
 
 #escrevendo uma função para usar SBC, para selecionar lag
 require("urca")
-summary(ur.df(y=Serie, type = "trend", selectlags = "BIC"))
-summary(ur.df(y=Serie, type = "drift", selectlags = "BIC"))
-summary(ur.kpss(y=Serie, type="tau", lags="long"))
+summary(ur.df(y=Serie, type = "trend", selectlags = "BIC")) #estacionária
+summary(ur.df(y=Serie, type = "drift", selectlags = "BIC")) 
+summary(ur.kpss(y=Serie, type="mu", lags="long")) #para nível
+summary(ur.kpss(y=Serie, type="tau", lags="long")) #para tendência
+#conclusão: aceita H0 para nível, estacionariedade, aceita pra tendência. Como interpretar com
+#adf dando raiz unitária e intercepto?
 summary(ur.df(y=Serie, type = "none", selectlags = "BIC"))
+
+summary(ur.df(y=Seriecoefvar, type = "trend", selectlags = "BIC")) #estacionária
+summary(ur.df(y=Seriecoefvar, type = "drift", selectlags = "BIC")) 
+summary(ur.kpss(y=Seriecoefvar, type="mu", lags="long")) #para nível
+summary(ur.kpss(y=Seriecoefvar, type="tau", lags="long")) #para tendência
+#conclusão: aceita H0 para nível, estacionariedade, aceita pra tendência. Como interpretar com
+#adf dando raiz unitária e intercepto?
+summary(ur.df(y=Seriecoefvar, type = "none", selectlags = "BIC"))
+
+summary(ur.df(y=SerieIPC, type = "trend", selectlags = "BIC")) #estacionária
+summary(ur.df(y=SerieIPC, type = "drift", selectlags = "BIC")) 
+summary(ur.kpss(y=SerieIPC, type="mu", lags="long")) #para nível
+summary(ur.kpss(y=SerieIPC, type="tau", lags="long")) #para tendência
+#conclusão: aceita H0 para nível, estacionariedade, aceita pra tendência. Como interpretar com
+#adf dando raiz unitária e intercepto?
+summary(ur.df(y=SerieIPC, type = "none", selectlags = "BIC"))
 
 cov(expec, dolar)
 cov(expec2, ipcs)
