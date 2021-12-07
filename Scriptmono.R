@@ -199,6 +199,7 @@ version
 dplyr::lag(base$desvio_de_expectativa, 4)
 ?lag
 base$lag4 <- dplyr::lag(base$desvio_de_expectativa, 4)
+base$lag4
 base$lag52 <- dplyr::lag(base$desvio_de_expectativa, 52)
 SerieMedian<-ts(base$Mediana, freq=365.25/7, start=c(2003,1))
 SerieVarCoef<-ts(base$Coef._Var., freq=365.25/7, start=c(2003,1))
@@ -956,26 +957,202 @@ require("urca")
 summary(ur.df(y=Serie, type = "trend", selectlags = "BIC")) #estacionária
 summary(ur.df(y=Serie, type = "drift", selectlags = "BIC")) 
 summary(ur.kpss(y=Serie, type="mu", lags="long")) #para nível
+kpss.test(x = Serie, null = "Level", lshort = FALSE)
 summary(ur.kpss(y=Serie, type="tau", lags="long")) #para tendência
+kpss.test(x = Serie, null = "Trend", lshort = FALSE)
 #conclusão: aceita H0 para nível, estacionariedade, aceita pra tendência. Como interpretar com
 #adf dando raiz unitária e intercepto?
 summary(ur.df(y=Serie, type = "none", selectlags = "BIC"))
+summary(ur.pp(x=Serie, type="Z-alpha", model=c("trend"), lags="long"))
+summary(ur.pp(x=Serie, type="Z-tau", model=c("trend"), lags="long"))
+summary(ur.pp(x=Serie, type="Z-alpha", model=c("constant"), lags="long"))
+summary(ur.pp(x=Serie, type="Z-tau", model=c("constant"), lags="long"))
 
 summary(ur.df(y=Seriecoefvar, type = "trend", selectlags = "BIC")) #estacionária
 summary(ur.df(y=Seriecoefvar, type = "drift", selectlags = "BIC")) 
 summary(ur.kpss(y=Seriecoefvar, type="mu", lags="long")) #para nível
+kpss.test(x = Seriecoefvar, null = "Level", lshort = FALSE)
 summary(ur.kpss(y=Seriecoefvar, type="tau", lags="long")) #para tendência
+kpss.test(x = Seriecoefvar, null = "Trend", lshort = FALSE)
 #conclusão: aceita H0 para nível, estacionariedade, aceita pra tendência. Como interpretar com
 #adf dando raiz unitária e intercepto?
 summary(ur.df(y=Seriecoefvar, type = "none", selectlags = "BIC"))
+summary(ur.pp(x=Seriecoefvar, type="Z-alpha", model=c("trend"), lags="long"))
+summary(ur.pp(x=Seriecoefvar, type="Z-tau", model=c("trend"), lags="long"))
+summary(ur.pp(x=Seriecoefvar, type="Z-alpha", model=c("constant"), lags="long"))
+summary(ur.pp(x=Seriecoefvar, type="Z-tau", model=c("constant"), lags="long"))
+
+
 
 summary(ur.df(y=SerieIPC, type = "trend", selectlags = "BIC")) #estacionária
 summary(ur.df(y=SerieIPC, type = "drift", selectlags = "BIC")) 
 summary(ur.kpss(y=SerieIPC, type="mu", lags="long")) #para nível
+kpss.test(x = SerieIPC, null = "Level", lshort = FALSE)
 summary(ur.kpss(y=SerieIPC, type="tau", lags="long")) #para tendência
+kpss.test(x = SerieIPC, null = "Trend", lshort = FALSE)
 #conclusão: aceita H0 para nível, estacionariedade, aceita pra tendência. Como interpretar com
 #adf dando raiz unitária e intercepto?
 summary(ur.df(y=SerieIPC, type = "none", selectlags = "BIC"))
+summary(ur.pp(x=SerieIPC, type="Z-alpha", model=c("trend"), lags="long"))
+summary(ur.pp(x=SerieIPC, type="Z-tau", model=c("trend"), lags="long"))
+summary(ur.pp(x=SerieIPC, type="Z-alpha", model=c("constant"), lags="long"))
+summary(ur.pp(x=SerieIPC, type="Z-tau", model=c("constant"), lags="long"))
+
+modeloDesvio = lm (Serie ~ SerieIPC)
+modeloDesvio
+base$lag1 <- dplyr::lag(base$desvio_de_expectativa, 1)
+base$lag1
+Serielag1 <- ts(base$lag1)
+class(Serielag1)
+base$ipcslag1 <- dplyr::lag(base$`IPC-S`, 1)
+base$ipcslag1
+Serieipcslag1 <- ts(base$ipcslag1)
+class(Serieipcslag1)
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                   base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+                   base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+                   base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+                   base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+                   base$`12`+Serieipcslag1+Serielag1+base$Sem_acontecimentos+
+                   base$antes_copom+base$semana_copom+base$semana_ata+
+                   base$semana_pos+base$Meirelles+base$Tombini+base$Goldfajn))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$antes_copom))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$semana_copom))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$semana_ata))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$semana_pos))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$semana_pos))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$antes_copom))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$semana_copom))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$semana_ata))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+Serieipcslag1+Serielag1+base$Meirelles))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+Serieipcslag1+Serielag1+base$Meirelles))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+Serieipcslag1+Serielag1+base$Tombini))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+Serieipcslag1+Serielag1+base$Tombini))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+Serieipcslag1+Serielag1+base$Goldfajn))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+Serieipcslag1+Serielag1+base$Goldfajn))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2006`+base$`2007`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2014`+base$`2015`+base$`2016`+base$`2017`+
+             base$`2018`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Sem_acontecimentos+
+             base$antes_copom+base$semana_copom+base$semana_ata+
+             base$semana_pos+base$Meirelles+base$Tombini+base$Goldfajn))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2016`+base$`2017`+
+             base$`2018`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Meirelles))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2016`+base$`2017`+
+             base$`2018`++base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Tombini))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2016`+base$`2017`+
+             base$`2018`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Goldfajn))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2016`+base$`2017`+
+             base$`2018`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Meirelles))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2016`+base$`2017`+
+             base$`2018`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Tombini))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
+             base$`2013`+base$`2014`+base$`2016`+base$`2017`+
+             base$`2018`+base$`2`+base$`3`+base$`4`+base$`5`+
+             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
+             base$`12`+SerieIPC+Serielag1+base$Goldfajn))
+mean(base$Meirelles)
+mean(base$Tombini)
+mean(base$Goldfajn)
+
+class(base$`2018`)
+base$`2018`
+class(base$`12`)
+base$`12`
 
 cov(expec, dolar)
 cov(expec2, ipcs)
