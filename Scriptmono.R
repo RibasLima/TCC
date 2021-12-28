@@ -1,5 +1,5 @@
 library(readr)
-base <- read_csv("~/Monografia/Base/Base_completa_ingles.csv", quote = "\t", 
+base <- read_csv("~/Monografia/Base/Base_completa_ingles_ipc.csv", quote = "\t", 
                  col_names = TRUE, 
                  col_types = cols(`1` = col_logical(), `10` = col_logical(),
                                   `11` = col_logical(), `12` = col_logical(), 
@@ -57,7 +57,8 @@ base <- read_csv("~/Monografia/Base/Base_completa_ingles.csv", quote = "\t",
                                                 "2011", "2012", "2013", "2014",
                                                 "2015", "2016", "2017", 
                                                 "2018")), 
-                                  `IPC-S` = col_number()), 
+                                  `IPC-S` = col_number(), 
+                                  `IPC-S_anualizado` = col_number()), 
                    locale = locale(decimal_mark = ".", encoding = "UTF-8"), 
                    trim_ws = TRUE)
 #Este código importa a dataframe de maneira adequada. Função oriunda do pacote 
@@ -1008,81 +1009,423 @@ base$ipcslag1 <- dplyr::lag(base$`IPC-S`, 1)
 base$ipcslag1
 Serieipcslag1 <- ts(base$ipcslag1)
 class(Serieipcslag1)
+base$coefvarlag1 <- dplyr::lag(base$Coef._Var., 1)
+base$coefvarlag1
+Seriecoefvarlag1 <- ts(base$coefvarlag1)
+Serieipcanualizado <- ts(base$`IPC-S_anualizado`)
+base$ipc_anualizadolag1 <- dplyr::lag(base$`IPC-S_anualizado`, 1)
+Serieipcanualizadolag1 <- ts(base$ipc_anualizadolag1)
 
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-                   base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-                   base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-                   base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-                   base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-                   base$`12`+Serieipcslag1+Serielag1+base$Sem_acontecimentos+
-                   base$antes_copom+base$semana_copom+base$semana_ata+
-                   base$semana_pos+base$Meirelles+base$Tombini+base$Goldfajn))
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$antes_copom))
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$semana_copom))
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$semana_ata))
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$semana_pos))
-summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$semana_pos))
-summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$antes_copom))
-summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$semana_copom))
-summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+SerieIPC+Serielag1+base$semana_ata))
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+Serieipcslag1+Serielag1+base$Meirelles))
-summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+Serieipcslag1+Serielag1+base$Meirelles))
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
-             base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
-             base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
-             base$`2018`+base$`1`+base$`2`+base$`3`+base$`4`+base$`5`+
-             base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+base$`11`+
-             base$`12`+Serieipcslag1+Serielag1+base$Tombini))
+summary(lm(Serie ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2015`+base$`2016`+base$`2017`+base$`2018`+
+                   base$`2`+base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                   base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+
+                   Serielag1+Seriecoefvarlag1+base$antes_copom))
+
+summary(lm(Serie ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2015`+base$`2016`+base$`2017`+base$`2018`+
+                   base$`2`+base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                   base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+
+                   Serielag1+Seriecoefvarlag1+base$semana_copom))
+
+summary(lm(Serie ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2015`+base$`2016`+base$`2017`+base$`2018`+
+                   base$`2`+base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                   base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+
+                   Serielag1+Seriecoefvarlag1+base$semana_ata))
+
+summary(lm(Serie ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2015`+base$`2016`+base$`2017`+base$`2018`+
+                   base$`2`+base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                   base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+
+                   Serielag1+Seriecoefvarlag1+base$semana_pos))
+
+summary(lm(Serie ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2015`+base$`2016`+base$`2017`+base$`2018`+
+                   base$`2`+base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                   base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+
+                   Serielag1+Seriecoefvarlag1+base$antes_copom+
+                   base$semana_copom+base$semana_ata+base$semana_pos))
+
+
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$antes_copom))
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$semana_copom))
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$semana_ata))
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$antes_copom+
+                          base$semana_copom+base$semana_ata+base$semana_pos))
+
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Goldfajn))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$Tombini+base$Goldfajn))
+
+library(car)
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+               base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+               base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+               base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+               base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+               Seriecoefvarlag1+base$Meirelles+base$Tombini))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini+base$Goldfajn))
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$Goldfajn))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Tombini))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Goldfajn))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$Tombini))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Tombini+base$Goldfajn))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$Goldfajn))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$antes_copom))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$semana_copom))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$semana_ata))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$semana_pos))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Meirelles+base$antes_copom+
+                   base$semana_copom+base$semana_ata+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$antes_copom))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$semana_copom))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$semana_ata))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Meirelles+base$antes_copom+
+                          base$semana_copom+base$semana_ata+base$semana_pos))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini+base$antes_copom))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini+base$semana_copom))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini+base$semana_ata))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini+base$semana_pos))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Tombini+base$antes_copom+
+                   base$semana_copom+base$semana_ata+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Tombini+base$semana_copom))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Tombini+base$semana_ata))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Tombini+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Tombini+base$antes_copom+
+                          base$semana_copom+base$semana_ata+base$semana_pos))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Goldfajn+base$antes_copom))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Goldfajn+base$semana_copom))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Goldfajn+base$semana_ata))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Goldfajn+base$semana_pos))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+base$Goldfajn+base$antes_copom+
+                   base$semana_copom+base$semana_ata+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Goldfajn+base$antes_copom))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Goldfajn+base$semana_copom))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Goldfajn+base$semana_ata))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Goldfajn+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+base$Goldfajn+base$antes_copom+
+                          base$semana_copom+base$semana_ata+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$semana_pos))
+
+summary(lm(Seriecoefvar ~ base$`2004`+base$`2005`+base$`2006`+base$`2007`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2015`+
+                          base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                          base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+
+                          base$`8`+base$`9`+base$`10`+base$`11`+base$`12`+
+                          SerieIPC+Serielag1+Seriecoefvarlag1+base$semana_pos))
+
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2007`+
              base$`2008`+base$`2009`+base$`2010`+base$`2011`+base$`2012`+
              base$`2013`+base$`2014`+base$`2015`+base$`2016`+base$`2017`+
