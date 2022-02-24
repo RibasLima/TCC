@@ -71,11 +71,16 @@ Seriecoefvar <- ts(base$Coef._Var., freq=365.25/7, start=c(2003,1))
 summary(Serie)
 #Demonstra as principais estatísticas da série de tempo
 
-plot(base$Data, base$desvio_de_expectativa,
-     col='red', main = 'Desvio de expectativa - semanal e ponderada', 
-     xlab = 'Período', ylab = 'Desvio de expectativa (em pontos percentuais)', 
-     type='l')
+par(col.main='white')
+plot(base$Data, base$desvio_de_expectativa, col='red', 
+     main = 'Desvio de expectativa - semanal', xlab = 'Período', 
+     ylab = 'Desvio de expectativa (em pontos percentuais)', type='l')
 #Plota gráfico em vermelho
+
+summary(Seriecoefvar)
+plot(base$Data, base$Coef._Var., col='blue', 
+     main = 'Média do coeficiente de variação', xlab = 'Período', 
+     ylab = 'Média do Coeficiente de Variação', type='l')
 
 boxplot(base$desvio_de_expectativa)
 #Cria uma boxplot do desvio de expectativa
@@ -92,19 +97,22 @@ boxplot(base$Coef._Var. ~ base$BCPresidente,
 boxplot(base$desvio_de_expectativa ~ base$BCPresidente, 
         main = "Desvio de expectativa por presidente do Banco Central - em 
         boxplot", ylab = "Desvio de expectativa (em pontos percentuais)", 
-        xlab = "Presidente do Banco Central", col='red')
+        xlab = "", col='red', las = 2)
+boxplot(base$Coef._Var. ~ base$BCPresidente, main = "", 
+        ylab = "Média do Coeficiente de Variação", 
+        xlab = "", col='red', las = 2)
 par(mar = c(5,5,2,3))
 boxplot(base$desvio_de_expectativa ~ base$Ano_categ, main = "",
         ylab = "Desvio de Expectativa (em pontos percentuais)", xlab = "Ano", 
         col='blue')
 boxplot(base$Coef._Var. ~ base$Ano_categ, main = "", 
-        ylab = "Mediana do Coeficiente de Variação", xlab = "Ano", col='red')
+        ylab = "Média do Coeficiente de Variação", xlab = "Ano", col='red')
 
 boxplot(base$desvio_de_expectativa ~ base$Mes_categ, 
         main = "", ylab = "Desvio de Expectativa (em pontos percentuais)", 
         xlab = "Mês", col='green')
 boxplot(base$Coef._Var. ~ base$Mes_categ, 
-        main = "", ylab = "Mediana do Coeficiente de Variação", xlab = "Mês", 
+        main = "", ylab = "Média do Coeficiente de Variação", xlab = "Mês", 
         col='orange')
 
 boxplot(base$desvio_de_expectativa ~ base$Semana_mes, 
@@ -124,8 +132,8 @@ boxplot(filteredtypebase$desvio_de_expectativa ~ filteredtypebase$Tipo_periodo,
         main = "", ylab = "Desvio de expectativa (em pontos percentuais)", 
         xlab = "", col='orange', las = 2)
 boxplot(filteredtypebase$Coef._Var. ~ filteredtypebase$Tipo_periodo,
-        main = "", ylab = "Coeficiente de Variação", xlab = "", col='green', 
-        las = 2)
+        main = "", ylab = "Média do Coeficiente de Variação", xlab = "", 
+        col='green', las = 2)
 
 boxplot(base$'IPC-S' ~ base$BCPresidente, 
         main = "Inflação semanal (IPC-S) por presidente do Banco Central - em 
@@ -1187,33 +1195,59 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
                           Seriecoefvarlag1+base$Meirelles+base$Goldfajn))
 
-summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
-                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
-                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
-                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
-                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Meirelles+base$antes_copom))
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Meirelles+base$semana_copom))
+                   Seriecoefvarlag1+(base$Meirelles*base$antes_copom)))
+MeirellesAC <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+
+                          base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+(base$Meirelles*base$antes_copom))
+ModeloRestrito <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                    Seriecoefvarlag1)
+summary(ModeloRestrito)
+Halt1 <- c("base$MeirellesTRUE:base$antes_copomTRUE+base$antes_copomTRUE=0")
+linearHypothesis(MeirellesAC, Halt1)
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Meirelles+base$semana_ata))
+                   Seriecoefvarlag1+(base$Meirelles*base$semana_copom)))
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Meirelles+base$semana_pos))
+                   Seriecoefvarlag1+(base$Meirelles*base$semana_ata)))
+
+summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
+                   base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
+                   base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
+                   base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
+                   base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                   Seriecoefvarlag1+(base$Meirelles*base$semana_pos)))
+MeirellesSP <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+
+                          base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+(base$Meirelles*base$semana_pos))
+Halt2 <- c("base$MeirellesTRUE:base$semana_posTRUE+base$semana_posTRUE=0")
+linearHypothesis(MeirellesSP, Halt2)
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
@@ -1229,7 +1263,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Meirelles+base$antes_copom))
+                          Seriecoefvarlag1+(base$Meirelles*base$antes_copom)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1237,7 +1271,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Meirelles+base$semana_copom))
+                          Seriecoefvarlag1+(base$Meirelles*base$semana_copom)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1245,7 +1279,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Meirelles+base$semana_ata))
+                          Seriecoefvarlag1+(base$Meirelles*base$semana_ata)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1253,7 +1287,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Meirelles+base$semana_pos))
+                          Seriecoefvarlag1+(base$Meirelles*base$semana_pos)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1269,28 +1303,46 @@ summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Tombini+base$antes_copom))
+                   Seriecoefvarlag1+(base$Tombini*base$antes_copom)))
+TombiniAC <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                        base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                        base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                        base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                        base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+
+                        base$`11`+base$`12`+SerieIPC+Serielag1+Seriecoefvarlag1+
+                        (base$Tombini*base$antes_copom))
+Halt3 <- c("base$TombiniTRUE:base$antes_copomTRUE+base$antes_copomTRUE=0")
+linearHypothesis(TombiniAC, Halt3)
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Tombini+base$semana_copom))
+                   Seriecoefvarlag1+(base$Tombini*base$semana_copom)))
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Tombini+base$semana_ata))
+                   Seriecoefvarlag1+(base$Tombini*base$semana_ata)))
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Tombini+base$semana_pos))
+                   Seriecoefvarlag1+(base$Tombini*base$semana_pos)))
+TombiniSP <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                        base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                        base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                        base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                        base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+
+                        base$`11`+base$`12`+SerieIPC+Serielag1+Seriecoefvarlag1+
+                        (base$Tombini*base$semana_pos))
+Halt4 <- c("base$TombiniTRUE:base$semana_posTRUE+base$semana_posTRUE=0")
+linearHypothesis(TombiniSP, Halt4)
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
@@ -1300,13 +1352,6 @@ summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    Seriecoefvarlag1+base$Tombini+base$antes_copom+
                    base$semana_copom+base$semana_ata+base$semana_pos))
 
-summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
-                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
-                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
-                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
-                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
-                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Tombini+base$semana_copom))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1314,7 +1359,14 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Tombini+base$semana_ata))
+                          Seriecoefvarlag1+(base$Tombini*base$antes_copom)))
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+(base$Tombini*base$semana_copom)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1322,7 +1374,15 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Tombini+base$semana_pos))
+                          Seriecoefvarlag1+(base$Tombini*base$semana_ata)))
+
+summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                          base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                          base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                          base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                          base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
+                          base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
+                          Seriecoefvarlag1+(base$Tombini*base$semana_pos)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1338,28 +1398,46 @@ summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Goldfajn+base$antes_copom))
+                   Seriecoefvarlag1+(base$Goldfajn*base$antes_copom)))
+GoldfajnAC <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                         base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                         base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                         base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                         base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+
+                         base$`11`+base$`12`+SerieIPC+Serielag1+Seriecoefvarlag1+
+                         (base$Goldfajn*base$antes_copom))
+Halt5 <- c("base$GoldfajnTRUE:base$antes_copomTRUE+base$antes_copomTRUE=0")
+linearHypothesis(GoldfajnAC, Halt5)
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Goldfajn+base$semana_copom))
+                   Seriecoefvarlag1+(base$Goldfajn*base$semana_copom)))
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Goldfajn+base$semana_ata))
+                   Seriecoefvarlag1+(base$Goldfajn*base$semana_ata)))
+GoldfajnSA <- lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
+                         base$`2008`+base$`2009`+base$`2010`+base$`2011`+
+                         base$`2012`+base$`2013`+base$`2014`+base$`2016`+
+                         base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
+                         base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+base$`10`+
+                         base$`11`+base$`12`+SerieIPC+Serielag1+Seriecoefvarlag1+
+                         (base$Goldfajn*base$semana_ata))
+Halt6 <- c("base$GoldfajnTRUE:base$semana_ataTRUE+base$semana_ataTRUE=0")
+linearHypothesis(GoldfajnSA, Halt6)
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
                    base$`2014`+base$`2016`+base$`2017`+base$`2018`+base$`2`+
                    base$`3`+base$`4`+base$`5`+base$`6`+base$`7`+base$`8`+
                    base$`9`+base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                   Seriecoefvarlag1+base$Goldfajn+base$semana_pos))
+                   Seriecoefvarlag1+(base$Goldfajn*base$semana_pos)))
 
 summary(lm(Serie ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+base$`2008`+
                    base$`2009`+base$`2010`+base$`2011`+base$`2012`+base$`2013`+
@@ -1375,7 +1453,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Goldfajn+base$antes_copom))
+                          Seriecoefvarlag1+(base$Goldfajn*base$antes_copom)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1383,7 +1461,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Goldfajn+base$semana_copom))
+                          Seriecoefvarlag1+(base$Goldfajn*base$semana_copom)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1391,7 +1469,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Goldfajn+base$semana_ata))
+                          Seriecoefvarlag1+(base$Goldfajn*base$semana_ata)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
@@ -1399,7 +1477,7 @@ summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2017`+base$`2018`+base$`2`+base$`3`+base$`4`+
                           base$`5`+base$`6`+base$`7`+base$`8`+base$`9`+
                           base$`10`+base$`11`+base$`12`+SerieIPC+Serielag1+
-                          Seriecoefvarlag1+base$Goldfajn+base$semana_pos))
+                          Seriecoefvarlag1+(base$Goldfajn*base$semana_pos)))
 
 summary(lm(Seriecoefvar ~ base$`2003`+base$`2004`+base$`2005`+base$`2006`+
                           base$`2008`+base$`2009`+base$`2010`+base$`2011`+
